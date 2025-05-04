@@ -1,0 +1,52 @@
+Metadata-Version: 2.1
+Name: appbuilder-sdk
+Version: 1.0.5
+Summary: 百度智能云千帆AppBuilder-SDK
+Home-page: https://github.com/baidubce/app-builder
+Author: dongdaxiang
+Author-email: dongdaxiang@baidu.com
+Requires-Python: >=3.9
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: proto-plus>=1.22.3
+Requires-Dist: pydantic>=2.6.4
+Requires-Dist: numpy
+Requires-Dist: openpyxl
+Requires-Dist: pymochow>=1.1.2
+Requires-Dist: PyYAML
+Requires-Dist: bce-python-sdk
+Requires-Dist: pycryptodome
+Requires-Dist: opentelemetry-exporter-otlp>=1.23.0
+Requires-Dist: opentelemetry-instrumentation>=0.44b0
+Requires-Dist: opentelemetry-sdk>=1.23.0
+Requires-Dist: opentelemetry-api>=1.23.0
+Requires-Dist: pydub>=0.10.0
+Requires-Dist: ffmpeg
+Requires-Dist: aiohttp
+Requires-Dist: urllib3<2.0.0
+Provides-Extra: all
+Requires-Dist: chainlit~=1.0.200; extra == "all"
+Requires-Dist: flask~=2.3.2; extra == "all"
+Requires-Dist: flask-restful==0.3.9; extra == "all"
+Requires-Dist: arize-phoenix==4.5.0; extra == "all"
+Requires-Dist: SQLAlchemy==2.0.31; extra == "all"
+Requires-Dist: python-dotenv; extra == "all"
+Requires-Dist: langchain==0.3.0; extra == "all"
+Requires-Dist: datamodel-code-generator==0.25.8; extra == "all"
+Requires-Dist: mcp>=1.2.1; extra == "all"
+Provides-Extra: langchain
+Requires-Dist: langchain==0.3.0; extra == "langchain"
+Requires-Dist: datamodel-code-generator==0.25.8; extra == "langchain"
+Provides-Extra: mcp
+Requires-Dist: mcp>=1.2.1; extra == "mcp"
+Provides-Extra: serve
+Requires-Dist: chainlit~=1.0.200; extra == "serve"
+Requires-Dist: flask~=2.3.2; extra == "serve"
+Requires-Dist: flask-restful==0.3.9; extra == "serve"
+Requires-Dist: arize-phoenix==4.5.0; extra == "serve"
+Provides-Extra: test
+Requires-Dist: python-dotenv; extra == "test"
+Provides-Extra: trace
+Requires-Dist: SQLAlchemy==2.0.31; extra == "trace"
+
+百度智能云千帆AppBuilder, 开箱即用的组件与框架, 高效开发你的AI原生应用, 更多信息请登录: https://appbuilder.cloud.baidu.com/

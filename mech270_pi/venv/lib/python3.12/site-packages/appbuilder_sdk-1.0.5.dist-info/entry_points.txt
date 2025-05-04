@@ -1,0 +1,3 @@
+[console_scripts]
+appbuilder_bce_deploy = appbuilder.utils.bce_deploy:deploy
+appbuilder_trace_server = appbuilder.utils.trace.phoenix_wrapper:runtime_main

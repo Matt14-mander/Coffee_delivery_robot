@@ -1,0 +1,20 @@
+Metadata-Version: 2.4
+Name: ffmpeg
+Version: 1.4
+Summary: ffmpeg python package url [https://github.com/jiashaokun/ffmpeg]
+Home-page: https://github.com/jiashaokun/ffmpeg
+Author: SkeyJIA
+Author-email: 363604236@qq.com
+License: MIT Licence
+Keywords: python ffmpeg
+Platform: any
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: platform
+Dynamic: summary
+
+ffmpeg python package

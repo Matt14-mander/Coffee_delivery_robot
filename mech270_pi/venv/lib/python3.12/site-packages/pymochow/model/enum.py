@@ -1,0 +1,326 @@
+# Copyright 2023 Baidu, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
+# except in compliance with the License. You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under the
+# License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the License for the specific language governing permissions
+# and limitations under the License.
+
+"""
+This module provide enum.
+"""
+from enum import Enum, unique
+
+
+@unique
+class MetricType(Enum):
+    """
+    The metric type of the vector index.
+    """
+    L2 = "L2"
+    IP = "IP"
+    COSINE = "COSINE"
+
+
+@unique
+class IndexType(Enum):
+    """index type"""
+    # vector index type
+    HNSW = "HNSW"
+    FLAT = "FLAT"
+    PUCK = "PUCK"
+    HNSWPQ = "HNSWPQ"
+    SPARSE_OPTIMIZED_FLAT = "SPARSE_OPTIMIZED_FLAT"
+
+    # scalar index type
+    SECONDARY_INDEX = "SECONDARY"
+    FILTERING_INDEX = "FILTERING"
+
+    # inverted index type
+    INVERTED_INDEX = "INVERTED"
+
+
+@unique
+class InvertedIndexAnalyzer(Enum):
+    """inverted index analyzer"""
+    ENGLISH_ANALYZER = "ENGLISH_ANALYZER"
+    CHINESE_ANALYZER = "CHINESE_ANALYZER"
+    DEFAULT_ANALYZER = "DEFAULT_ANALYZER"
+
+
+@unique
+class InvertedIndexParseMode(Enum):
+    """parse mode"""
+    COARSE_MODE = "COARSE_MODE"
+    FINE_MODE = "FINE_MODE"
+
+
+@unique
+class InvertedIndexFieldAttribute(Enum):
+    """InvertedIndexFieldsAttribute"""
+    NOT_ANALYZED = "ATTRIBUTE_NOT_ANALYZED"
+    ANALYZED = "ATTRIBUTE_ANALYZED"
+
+
+@unique
+class FieldType(Enum):
+    """
+    Field type
+    """
+    # scalar field type
+    BOOL = "BOOL"
+    INT8 = "INT8"
+    UINT8 = "UINT8"
+    INT16 = "INT16"
+    UINT16 = "UINT16"
+    INT32 = "INT32"
+    UINT32 = "UINT32"
+    INT64 = "INT64"
+    UINT64 = "UINT64"
+    FLOAT = "FLOAT"
+    DOUBLE = "DOUBLE"
+    DATE = "DATE"
+    DATETIME = "DATETIME"
+    TIMESTAMP = "TIMESTAMP"
+    STRING = "STRING"
+    BINARY = "BINARY"
+    UUID = "UUID"
+    TEXT = "TEXT"
+    TEXT_GBK = "TEXT_GBK"
+    TEXT_GB18030 = "TEXT_GB18030"
+    ARRAY = "ARRAY"
+
+    # vector field type
+    FLOAT_VECTOR = "FLOAT_VECTOR"
+    BINARY_VECTOR = "BINARY_VECTOR"
+    SPARSE_FLOAT_VECTOR = "SPARSE_FLOAT_VECTOR"
+
+
+@unique
+class ElementType(Enum):
+    """
+    Field type
+    """
+    # scalar field type
+    BOOL = "BOOL"
+    INT8 = "INT8"
+    UINT8 = "UINT8"
+    INT16 = "INT16"
+    UINT16 = "UINT16"
+    INT32 = "INT32"
+    UINT32 = "UINT32"
+    INT64 = "INT64"
+    UINT64 = "UINT64"
+    FLOAT = "FLOAT"
+    DOUBLE = "DOUBLE"
+    DATE = "DATE"
+    DATETIME = "DATETIME"
+    TIMESTAMP = "TIMESTAMP"
+    STRING = "STRING"
+    BINARY = "BINARY"
+    UUID = "UUID"
+    TEXT = "TEXT"
+    TEXT_GBK = "TEXT_GBK"
+    TEXT_GB18030 = "TEXT_GB18030"
+
+
+@unique
+class PartitionType(Enum):
+    """
+    Partition Type
+    """
+    HASH = "HASH"
+
+
+@unique
+class IndexStructureType(Enum):
+    """
+    Index structure type
+    """
+    DEFAULT = "DEFAULT"
+    BITMAP = "BITMAP"
+
+
+@unique
+class ServerErrCode(Enum):
+    """
+    Server error no
+    """
+    INTERNAL_ERROR = 1
+    INVALID_PARAMETER = 2
+    TIMEOUT = 3
+
+    INVALID_HTTP_URL = 10
+    INVALID_HTTP_HEADER = 11
+    INVALID_HTTP_BODY = 12
+    MISS_SSL_CERTIFICATES = 13
+
+    USER_NOT_EXIST = 20
+    USER_ALREADY_EXIST = 21
+    ROLE_NOT_EXIST = 22
+    ROLE_ALREADY_EXIST = 23
+    AUTHENTICATION_FAILED = 24
+    PERMISSION_DENIED = 25
+
+    # Database errors
+    DB_NOT_EXIST = 50
+    DB_ALREADY_EXIST = 51
+    DB_TOO_MANY_TABLES = 52
+    DB_NOT_EMPTY = 53
+
+    # Table errors
+    INVALID_TABLE_SCHEMA = 60
+    INVALID_PARTITION_PARAMETERS = 61
+    TABLE_TOO_MANY_FIELDS = 62
+    TABLE_TOO_MANY_FAMILIES = 63
+    TABLE_TOO_MANY_PRIMARY_KEYS = 64
+    TABLE_TOO_MANY_PARTITION_KEYS = 65
+    TABLE_TOO_MANY_VECTOR_FIELDS = 66
+    TABLE_TOO_MANY_INDEXES = 67
+    DYNAMIC_SCHEMA_ERROR = 68
+    TABLE_NOT_EXIST = 69
+    TABLE_ALREADY_EXIST = 70
+    INVALID_TABLE_STATE = 71
+    TABLE_NOT_READY = 72
+    ALIAS_NOT_EXIST = 73
+    ALIAS_ALREADY_EXIST = 74
+
+    # Field errors
+    FIELD_NOT_EXIST = 80
+    FIELD_ALREADY_EXIST = 81
+    VECTOR_FIELD_NOT_EXIST = 82
+
+    # Index errors
+    INVALID_INDEX_SCHEMA = 90
+    INDEX_NOT_EXIST = 91
+    INDEX_ALREADY_EXIST = 92
+    INDEX_DUPLICATED = 93
+    INVALID_INDEX_STATE = 94
+
+    # Row errors
+    PRIMARY_KEY_DUPLICATED = 100
+    ROW_KEY_NOT_FOUND = 101
+
+
+@unique
+class TableState(Enum):
+    """
+    Table State
+    """
+    CREATING = "CREATING"
+    NORMAL = "NORMAL"
+    DELETING = "DELETING"
+
+
+@unique
+class ReadConsistency(Enum):
+    """
+    Read Consistency
+    """
+    EVENTUAL = "EVENTUAL"
+    STRONG = "STRONG"
+
+
+@unique
+class IndexState(Enum):
+    """
+    Index State
+    """
+    BUILDING = "BUILDING"
+    NORMAL = "NORMAL"
+
+
+@unique
+class AutoBuildPolicyType(Enum):
+    """
+    Auto Build Policy Type
+    """
+    def __str__(self):
+        """
+            将对象转换为字符串，返回值为对象的value属性。
+        如果value属性不存在或者是None，则返回空字符串。
+
+        Returns:
+            str -- 对象的value属性，如果不存在或者是None，则返回空字符串。
+        """
+        return str(self.value)
+    TIMING = "TIMING"
+    PERIODICAL = "PERIODICAL"
+    ROW_COUNT_INCREMENT = "ROW_COUNT_INCREMENT"
+    #RESOURCE_USAGE = 4
+
+
+@unique
+class RequestType(Enum):
+    """request type"""
+
+    def __str__(self):
+        return str(self.value)
+
+    def __bytes__(self):
+        return bytes(self.value, 'utf-8')
+
+    SHOW = "show"
+    LIST = "list"
+    DESC = "desc"
+    ADD_FIELD = "addField"
+    MODIFY = "modify"
+    REBUILD = "rebuild"
+    INSERT = "insert"
+    UPSERT = "upsert"
+    DELETE = "delete"
+    UPDATE = "update"
+    QUERY = "query"
+    BATCH_QUERY = "batchQuery"
+    SEARCH = "search"
+    BATCH_SEARCH = "batchSearch"
+    MULTI_VECTOR_SEARCH = "multiVectorSearch"
+    CREATE = "create"
+    DROP = "drop"
+    ALIAS = "alias"
+    UNALIAS = "unalias"
+    STATS = "stats"
+    SELECT = "select"
+
+
+@unique
+class DocumentLayout(Enum):
+    """
+    DocumentLayout: Enum representing the layout or structure of a document.
+
+    GENERAL: Represents a general layout, not specific to any particular format.
+    """
+    GENERAL = "GENERAL"
+
+
+@unique
+class Lang(Enum):
+    """
+    Lang: Enum representing the language of a document.
+
+    ZH: Represents Chinese language (ZH).
+    EN: Represents English language (EN).
+    """
+    ZH = "ZH"
+    EN = "EN"
+
+
+@unique
+class DocSplitMode(Enum):
+    PAGE = "PAGE"
+    SENTENCE = "SENTENCE"
+
+@unique
+class FilterMode(Enum):
+    """
+    FilterMode: Representing the filter mode of a search.
+
+    AUTO: Represents AUTO filter mode.
+    POST: Represents POST filter mode.
+    """
+    AUTO = "AUTO"
+    POST = "POST"

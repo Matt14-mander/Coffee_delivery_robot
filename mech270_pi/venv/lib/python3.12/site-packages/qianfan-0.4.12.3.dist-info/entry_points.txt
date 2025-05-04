@@ -1,0 +1,3 @@
+[console_scripts]
+qianfan=qianfan.common.cli.main:main
+

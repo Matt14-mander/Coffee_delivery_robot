@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: pymochow
+Version: 2.2.7
+Summary: Python SDK for mochow
+Home-page: http://bce.baidu.com
+Author: fengjialin
+Author-email: fengjialin@baidu.com
+License: Apache License 2.0
+Requires-Python: >=3.7
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: orjson
+Requires-Dist: future
+
