@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+  <!-- Console launch prefix -->
+  <arg name="launch_prefix" default=""/>
+
+  <arg name="camera_type" default="$(optenv CAMERA_TYPE dpcam)"/>
+
+  <!-- Config and weights folder. -->
+  <arg name="yolo_weights_path"          default="$(find darknet_ros)/yolo_network_config/weights"/>
+  <arg name="yolo_config_path"           default="$(find darknet_ros)/yolo_network_config/cfg"/>
+
+  <!-- ROS and network parameter files -->
+  <arg name="ros_param_file"             default="$(find darknet_ros)/config/ros.yaml"/>
+  <arg name="network_param_file"         default="$(find darknet_ros)/config/yolov3-tiny.yaml"/>
+
+  <!-- Load parameters -->
+  <rosparam command="load" ns="darknet_ros" file="$(arg ros_param_file)"/>
+  <rosparam command="load" ns="darknet_ros" file="$(arg network_param_file)"/>
+
+  <!-- Start darknet and ros wrapper -->
+  <group if="$(eval camera_type == 'dpcam_pro')">
+    <include file="$(find tarkbot_bringup)/launch/include/depthcamera_pro.launch"/>
+    <arg name="image" default="/camera/rgb/image_raw" />
+    <node pkg="darknet_ros" type="darknet_ros" name="darknet_ros" output="screen" launch-prefix="$(arg launch_prefix)">
+      <param name="weights_path"          value="$(arg yolo_weights_path)" />
+      <param name="config_path"           value="$(arg yolo_config_path)" />
+      <remap from="camera/rgb/image_raw"  to="$(arg image)" />
+    </node>
+  </group>
+
+  <!-- Start darknet and ros wrapper -->
+  <group if="$(eval camera_type == 'dpcam')">
+    <include file="$(find tarkbot_bringup)/launch/include/depthcamera.launch"/>
+    <arg name="image" default="/camera/rgb/image_raw" />
+    <node pkg="darknet_ros" type="darknet_ros" name="darknet_ros" output="screen" launch-prefix="$(arg launch_prefix)">
+      <param name="weights_path"          value="$(arg yolo_weights_path)" />
+      <param name="config_path"           value="$(arg yolo_config_path)" />
+      <remap from="camera/rgb/image_raw"  to="$(arg image)" />
+    </node>
+  </group>
+
+    <!-- 使用普通相机 -->
+  <group if="$(eval camera_type == 'cam')">
+      <include file="$(find tarkbot_bringup)/launch/include/camera.launch"/>
+      <arg name="image" default="/usb_cam/image_raw" />
+      <node pkg="darknet_ros" type="darknet_ros" name="darknet_ros" output="screen" launch-prefix="$(arg launch_prefix)">
+        <param name="weights_path"          value="$(arg yolo_weights_path)" />
+        <param name="config_path"           value="$(arg yolo_config_path)" />
+        <remap from="camera/rgb/image_raw"  to="$(arg image)" />
+    </node>
+  </group>
+
+</launch>

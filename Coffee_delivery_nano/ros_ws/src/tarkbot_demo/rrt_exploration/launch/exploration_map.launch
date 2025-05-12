@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+
+        <!-- 启动机器人，包含底盘，激光雷达 -->
+        <include file="$(find tarkbot_bringup)/launch/bringup.launch" >
+                <arg name="use_pose_ekf"      value="true"/>
+                <arg name="use_lidar"         value="true"/>
+                <arg name="use_camera"        value="false"/>
+                <arg name="use_web_video"     value="false"/>
+        </include>
+
+        <!-- 启动Gmapping建图算法包 -->
+        <include file="$(find tarkbot_slam)/launch/includes/tarkbot_gmapping.launch" />
+
+    <!-- 启动路径规划算法包 -->
+        <include file="$(find tarkbot_nav)/launch/include/tarkbot_move_base.launch">
+              <!-- 选择机器人型号，调用对应型号机器人导航参数 -->
+              <arg name="robot_type"   value="$(env ROBOT_TYPE)"/>	    
+        </include>
+
+</launch>

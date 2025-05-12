@@ -1,0 +1,3 @@
+int16 bodyid
+astra_sdk_vector3f centerOfMass
+astra_sdk_joint[19] joints

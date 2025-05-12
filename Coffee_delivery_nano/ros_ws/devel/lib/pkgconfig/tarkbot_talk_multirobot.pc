@@ -1,0 +1,8 @@
+prefix=/home/xtark/tarkbot/ros_ws/devel
+
+Name: tarkbot_talk_multirobot
+Description: Description of tarkbot_talk_multirobot
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,0 +1,13 @@
+<!--离线语音合成-->
+<launch>
+  <rosparam command="load" file="$(find tts)/config/tts_params.yaml" />
+ 
+  <arg name="package_path" default = "$(find tts)" />
+
+  <arg name="tts_ori" default = "你好小克" />
+
+  <node pkg="tts" type="tts_node" name="tts_node" output="screen">
+    <param name="source_path" type="string" value="$(arg package_path)"/>
+    <param name="tts_text" type="string" value="$(arg tts_ori)"/> 
+  </node>
+</launch>

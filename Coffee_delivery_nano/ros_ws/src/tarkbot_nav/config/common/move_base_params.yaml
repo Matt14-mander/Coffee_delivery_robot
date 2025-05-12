@@ -1,0 +1,66 @@
+#导航wiki：http://wiki.ros.org/navigation/Tutorials
+#导航wiki：http://wiki.ros.org/navigation/Tutorials/RobotSetup
+#move_base官方wiki：http://wiki.ros.org/move_base
+
+#当move_base在不活动状态时,是否关掉代价地图
+shutdown_costmaps: false  
+
+#发送底盘速度控制话题cmd_vel的频率，单位：Hz
+controller_frequency: 10.0  
+#没有接收到控制话题多长时间后执行恢复行为，单位：s
+controller_patience: 3.0  
+
+#全局路经规划器的规划频率，单位：Hz
+planner_frequency: 1.0  
+#全局路径规划无法规划有效路经多长时间后执行恢复行为，单位：s
+planner_patience: 3.0  
+
+#全局路径规划失败后，尝试重新规划几次后才执行恢复行为，设置为-1代表无限重试
+max_planning_retries: 1
+
+#允许机器人振荡的时间，后执行恢复行为，单位：s
+oscillation_timeout: 10.0  
+#机器人处于振荡状态的运动幅度，单位：m
+oscillation_distance: 0.03  
+
+#是否开启恢复行为，可根据需要选择，塔克默认不开启
+recovery_behavior_enabled: true
+#是否开启恢复行为的旋转的恢复行为，仅在使用默认恢复行为时使用
+clearing_rotation_allowed: true
+
+#执行恢复行为时，机器人与与障碍物的距离超过设定值时，障碍物被清除，仅在使用默认恢复行为时使用，单位：s
+conservative_reset_dist: 3.0
+
+#恢复行为设置，可设置多级恢复行为
+recovery_behaviors:
+  - name: 'recovery_behaviors1'  #级别1,清除
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'recovery_behaviors2'  #级别2，原地转圈
+    type: 'rotate_recovery/RotateRecovery'  
+  # - name: 'recovery_behaviors3'  #级别3，慢速移动
+  #   type: 'move_slow_and_clear/MoveSlowAndClear'  
+
+#级别1，机器人指定范围内的障碍物将从机器人地图中清除
+recovery_behaviors1:
+  reset_distance: 1.0  
+
+#级别2，机器人指定范围内的障碍物将从机器人地图中清除
+recovery_behaviors2:
+  reset_distance: 2.0
+
+#级别3，机器人指定范围内的障碍物将从机器人地图中清除
+recovery_behaviors3:
+  #与机器人距离1米外的障碍物会被清除
+  clearing_distance: 4.0
+  #限制恢复行为时机器人的线速度，单位：m/s
+  limited_trans_speed: 0.1
+  #限制恢复行为时机器人的角速度，单位：rad/s
+  limited_rot_speed: 0.4
+  #完成该恢复行为机器人必须移动的距离，单位：m
+  limited_distance: 0.3
+
+
+
+
+
+

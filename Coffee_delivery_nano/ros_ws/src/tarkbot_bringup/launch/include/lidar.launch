@@ -1,0 +1,40 @@
+<launch>
+
+	<!-- 标签 -->
+	<arg name="lidar_type"        default="$(optenv LIDAR_TYPE d300)"/>
+	<arg name="laser_frame"       default="laser_link"/>
+    <arg name="laser_topic"       default="/scan"/>
+	
+	<!-- 启动雷达：思岚A1 -->	
+	<group if="$(eval lidar_type == 'a1')">		
+		<include file="$(find rplidar_ros)/launch/tarkbot_lidar_a1.launch">
+			<arg name="laser_frame" value="$(arg laser_frame)"/>
+			<arg name="laser_topic" value="$(arg laser_topic)"/>
+		</include>
+	</group>
+
+	<!-- 启动雷达：塔克e300 -->	
+	<group if="$(eval lidar_type == 'e300')">		
+		<include file="$(find xtlidar_ros)/launch/tarkbot_lidar_e300.launch">
+			<arg name="laser_frame" value="$(arg laser_frame)"/>
+			<arg name="laser_topic" value="$(arg laser_topic)"/>
+		</include>
+	</group>
+
+        <!-- 启动雷达：塔克d300 -->
+        <group if="$(eval lidar_type == 'd300')">
+                <include file="$(find ldlidar_stl_ros)/launch/tarkbot_ld19.launch">
+                        <arg name="laser_frame" value="$(arg laser_frame)"/>
+                        <arg name="laser_topic" value="$(arg laser_topic)"/>
+                </include>
+        </group>
+
+        <!-- 启动雷达：瑞驰lb1l -->
+        <group if="$(eval lidar_type == 'lb1l')">
+			<include file="$(find lakibeam1)/launch/tarkbot_lakibeam1_scan.launch">
+				<arg name="laser_frame" value="$(arg laser_frame)"/>
+				<arg name="laser_topic" value="$(arg laser_topic)"/>
+			</include>
+        </group>
+
+</launch>

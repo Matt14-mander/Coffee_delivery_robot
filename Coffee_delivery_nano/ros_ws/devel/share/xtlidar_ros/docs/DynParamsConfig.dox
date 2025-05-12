@@ -1,0 +1,6 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~rpm" : \b [int] motor's RPM min: 300, default: 600, max: 1500
+

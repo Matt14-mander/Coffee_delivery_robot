@@ -1,0 +1,8 @@
+prefix=/home/xtark/tarkbot/ros_ws/devel
+
+Name: usb_cam
+Description: Description of usb_cam
+Version: 0.3.6
+Cflags: -I/home/xtark/tarkbot/ros_ws/src/tarkbot_package/tarkbot_camera/usb_cam/include
+Libs: -L${prefix}/lib -lusb_cam
+Requires: 

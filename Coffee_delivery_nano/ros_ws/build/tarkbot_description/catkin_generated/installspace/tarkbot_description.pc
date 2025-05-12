@@ -1,0 +1,8 @@
+prefix=/home/xtark/tarkbot/ros_ws/install
+
+Name: tarkbot_description
+Description: Description of tarkbot_description
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

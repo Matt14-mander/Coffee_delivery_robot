@@ -1,0 +1,29 @@
+<launch>
+
+    <!-- 标签 -->
+    <arg name="odom_frame"       default="odom"/>  
+    <arg name="base_frame"       default="base_footprint"/>  
+    <arg name="imu_frame"        default="imu_link"/>  
+    <arg name="odom_topic"       default="/odom"/>  
+    <arg name="imu_topic"        default="/imu"/>  
+    <!-- 启动机器人底盘 -->
+    <include file="$(find tarkbot_robot)/launch/robot.launch">
+        <arg name="base_frame"     value="$(arg base_frame)"/>  
+        <arg name="odom_frame"     value="$(arg odom_frame)"/>  
+        <arg name="imu_frame"      value="$(arg imu_frame)"/>  
+        <arg name="odom_topic"     value="$(arg odom_topic)"/>  
+        <arg name="imu_topic"      value="$(arg imu_topic)"/>   
+        <arg name="pub_odom_tf"    value="true"/>  
+    </include>
+
+    <!-- 启动手柄原始节点 -->
+    <node name="joy_node" pkg="joy" type="joy_node" output="screen" respawn="false"/>
+
+    <!-- 启动塔克手柄遥控机器人节点，适合所有车型 -->
+    <node name="teleop_joy" pkg="tarkbot_teleop" type="tarkbot_teleop_joy.py" output="screen" respawn="false">
+        <param name="x_speed_scale"  value="0.6" />
+        <param name="y_speed_scale"  value="0.5" />
+        <param name="w_speed_scale"  value="2.0" />
+    </node>
+    
+</launch>

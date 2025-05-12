@@ -1,0 +1,8 @@
+prefix=/home/xtark/tarkbot/ros_ws/install
+
+Name: light_service
+Description: Description of light_service
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: 

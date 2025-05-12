@@ -1,0 +1,11 @@
+\subsubsection usage Usage
+\verbatim
+<node name="laser_warning" pkg="laser_warning" type="laser_warning">
+  <param name="Kp1" type="double" value="1.2" />
+  <param name="Ki1" type="double" value="0.0" />
+  <param name="Kd1" type="double" value="0.0" />
+  <param name="warningAngle" type="int" value="70" />
+  <param name="warningDist" type="double" value="0.5" />
+</node>
+\endverbatim
+

@@ -1,0 +1,14 @@
+\subsubsection usage Usage
+\verbatim
+<node name="tarkbot_driver_yolo" pkg="tarkbot_driver_yolo" type="tarkbot_driver_yolo">
+  <param name="outer_ring_center_target" type="double" value="0.26" />
+  <param name="outer_ring_vel_z_P" type="double" value="0.01" />
+  <param name="outer_ring_vel_z_D" type="double" value="0.001" />
+  <param name="Inner_ring_center_target" type="double" value="0.75" />
+  <param name="Inner_ring_vel_y_P" type="double" value="0.001" />
+  <param name="Inner_ring_vel_y_D" type="double" value="0.003" />
+  <param name="Inner_ring_vel_z_P" type="double" value="0.006" />
+  <param name="Inner_ring_vel_z_D" type="double" value="0.001" />
+</node>
+\endverbatim
+

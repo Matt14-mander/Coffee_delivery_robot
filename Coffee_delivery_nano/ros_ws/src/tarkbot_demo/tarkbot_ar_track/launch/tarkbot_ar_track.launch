@@ -1,0 +1,119 @@
+<launch>
+
+    <arg name="camera_type"       default="$(optenv CAMERA_TYPE dpcam)"/>
+	<!-- PRO深度相机驱动节点 -->
+	   
+	<!-- 深度相机驱动节点 -->
+	<group if="$(eval camera_type == 'dpcam')">
+	   
+		<include file="$(find tarkbot_bringup)/launch/include/depthcamera.launch"/>   
+		<!-- 进行TF变换 -->
+		<node pkg="tf" type="static_transform_publisher" name="world_to_cam" 
+			args="0 0 0.15 0 0 0 world camera_link 10" />
+		<!-- 对使用到的变量进行提前的参数定义 -->
+		<arg name="marker_size" default="5" />
+		<arg name="max_new_marker_error" default="0.08" />
+		<arg name="max_track_error" default="0.2" />
+		<!-- 对接实际发布的话题 -->
+		<arg name="cam_image_topic" default="/camera/rgb/image_raw" />
+		<arg name="cam_info_topic" default="/camera/rgb/camera_info" />
+		<!-- 输出的坐标系 -->
+		<arg name="output_frame" default="/camera_link" />
+		
+		<!-- ar标签的识别节点 -->
+		<node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" output="screen">
+			<!-- 二维码标签一侧的宽度（以厘米为单位） -->
+			<param name="marker_size"           type="double" value="$(arg marker_size)" />
+			<!-- 确定何时可以在不确定性下检测到新二维码的阈值 -->
+			<param name="max_new_marker_error"  type="double" value="$(arg max_new_marker_error)" />
+			<!-- 一个阈值，用于确定在认为标签消失之前可以允许的跟踪误差 -->
+			<param name="max_track_error"       type="double" value="$(arg max_track_error)" />
+			<!-- AR标签输出的坐标系 -->
+			<param name="output_frame"          type="string" value="$(arg output_frame)" />
+			<!-- 重新对接话题 -->
+			<remap from="camera_image"  to="$(arg cam_image_topic)" />
+			<remap from="camera_info"   to="$(arg cam_info_topic)" />
+		</node>
+	</group>
+
+	<!-- PRO深度相机驱动节点 -->
+	<group if="$(eval camera_type == 'dpcam_pro')">
+	   
+		<include file="$(find tarkbot_bringup)/launch/include/depthcamera_pro.launch"/>   
+		<!-- 进行TF变换 -->
+		<node pkg="tf" type="static_transform_publisher" name="world_to_cam" 
+			args="0 0 0.15 0 0 0 world camera_link 10" />
+		<!-- 对使用到的变量进行提前的参数定义 -->
+		<arg name="marker_size" default="5" />
+		<arg name="max_new_marker_error" default="0.08" />
+		<arg name="max_track_error" default="0.2" />
+		<!-- 对接实际发布的话题 -->
+		<arg name="cam_image_topic" default="/camera/rgb/image_raw" />
+		<arg name="cam_info_topic" default="/camera/rgb/camera_info" />
+		<!-- 输出的坐标系 -->
+		<arg name="output_frame" default="/camera_link" />
+		
+		<!-- ar标签的识别节点 -->
+		<node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" output="screen">
+			<!-- 二维码标签一侧的宽度（以厘米为单位） -->
+			<param name="marker_size"           type="double" value="$(arg marker_size)" />
+			<!-- 确定何时可以在不确定性下检测到新二维码的阈值 -->
+			<param name="max_new_marker_error"  type="double" value="$(arg max_new_marker_error)" />
+			<!-- 一个阈值，用于确定在认为标签消失之前可以允许的跟踪误差 -->
+			<param name="max_track_error"       type="double" value="$(arg max_track_error)" />
+			<!-- AR标签输出的坐标系 -->
+			<param name="output_frame"          type="string" value="$(arg output_frame)" />
+			<!-- 重新对接话题 -->
+			<remap from="camera_image"  to="$(arg cam_image_topic)" />
+			<remap from="camera_info"   to="$(arg cam_info_topic)" />
+		</node>
+	</group>
+
+	<!-- 普通相机驱动节点 -->
+    <group if="$(eval camera_type == 'cam')">
+		<arg name="device_id" default="0"/>
+		<arg name="frame_id" default="camera_link"/>
+		<arg name="image_width" default="640"/>
+		<arg name="image_height" default="480"/>
+		<arg name="camera_info_url" default="file://$(find tarkbot_ar_track)/config/camera_calib/cam_480p.yaml"/>
+
+		<node name="camera" pkg="cv_camera" type="cv_camera_node" output="screen">
+		<param name="device_id" value="$(arg device_id)" />
+		<param name="frame_id" value="$(arg frame_id)" />
+		<param name="image_width" value="$(arg image_width)" />
+		<param name="image_height" value="$(arg image_height)" />
+		<param name="camera_info_url" type="string" value="$(arg camera_info_url)"/>
+		<remap from="/camera/image_raw/compressed" to="/image_raw/compressed"/>
+		</node>
+
+		<!-- 进行TF变换 -->
+		<node pkg="tf" type="static_transform_publisher" name="world_to_cam" 
+			args="0 0 0.15 0 0 0 world camera_link 10" />
+		<!-- 对使用到的变量进行提前的参数定义 -->
+		<arg name="marker_size" default="5" />
+		<arg name="max_new_marker_error" default="0.08" />
+		<arg name="max_track_error" default="0.2" />
+		<!-- 对接实际发布的话题 -->
+		<arg name="cam_image_topic" default="/camera/image_raw" />
+    	<arg name="cam_info_topic" default="/camera/camera_info" />
+		<!-- 输出的坐标系 -->
+		<arg name="output_frame" default="/camera_link" />
+		
+		<!-- ar标签的识别节点 -->
+		<node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkersNoKinect" respawn="false" output="screen">
+			<!-- 二维码标签一侧的宽度（以厘米为单位） -->
+			<param name="marker_size"           type="double" value="$(arg marker_size)" />
+			<!-- 确定何时可以在不确定性下检测到新二维码的阈值 -->
+			<param name="max_new_marker_error"  type="double" value="$(arg max_new_marker_error)" />
+			<!-- 一个阈值，用于确定在认为标签消失之前可以允许的跟踪误差 -->
+			<param name="max_track_error"       type="double" value="$(arg max_track_error)" />
+			<!-- AR标签输出的坐标系 -->
+			<param name="output_frame"          type="string" value="$(arg output_frame)" />
+			<!-- 重新对接话题 -->
+			<remap from="camera_image"  to="$(arg cam_image_topic)" />
+			<remap from="camera_info"   to="$(arg cam_info_topic)" />
+		</node>
+
+    </group>
+
+</launch>

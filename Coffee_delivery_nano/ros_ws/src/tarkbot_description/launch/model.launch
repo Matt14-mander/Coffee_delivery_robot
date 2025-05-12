@@ -1,0 +1,14 @@
+<launch>
+	<!-- 读取机器人类型参数 -->
+	<arg name="robot_type" default="r20_mec" doc="robot type [r20_mec, r20_akm, r20_fwd, r20_twd, r20_mec_b]" />
+
+    <!-- 加载机器人URDF模型文件 -->
+    <param name="robot_description" textfile="$(find tarkbot_description)/urdf/tarkbot_$(arg robot_type).urdf" />
+
+    <!-- 添加关节状态发布节点 -->
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" />
+
+    <!-- 添加机器人状态发布节点 -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
+
+</launch>

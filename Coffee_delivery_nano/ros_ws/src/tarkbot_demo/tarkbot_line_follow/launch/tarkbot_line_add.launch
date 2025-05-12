@@ -1,0 +1,61 @@
+<launch>
+    <!-- 初始色彩赋值 -->
+    <arg name="lowerh" default="100"/>  
+    <arg name="lowers" default="55"/>  
+    <arg name="lowerv" default="90"/> 
+
+    <arg name="upperh" default="130"/>  
+    <arg name="uppers" default="215"/>  
+    <arg name="upperv" default="170"/>  
+    <arg name="camera_type"       default="$(optenv CAMERA_TYPE dpcam)"/>
+
+    <!-- 启动深度相机摄像头  -->
+    <group if="$(eval camera_type == 'dpcam')">
+        <include file="$(find tarkbot_bringup)/launch/include/depthcamera.launch"/>   
+        <!-- 添加色彩节点 -->
+        <node pkg="tarkbot_line_follow" name="linefollow" type="tarkbot_line_add.py" output="screen">
+            <param name="lowerh"            value="$(arg lowerh)"/>
+            <param name="lowers"            value="$(arg lowers)"/>
+            <param name="lowerv"            value="$(arg lowerv)"/>
+            <param name="upperh"            value="$(arg upperh)"/>
+            <param name="uppers"            value="$(arg uppers)"/>
+            <param name="upperv"            value="$(arg upperv)"/>  
+        </node>
+    </group>
+
+    <!-- 启动pro深度相机摄像头  -->
+    <group if="$(eval camera_type == 'dpcam_pro')">
+        <include file="$(find tarkbot_bringup)/launch/include/depthcamera_pro.launch"/>   
+        <!-- 添加色彩节点 -->
+        <node pkg="tarkbot_line_follow" name="linefollow" type="tarkbot_line_add.py" output="screen">
+            <param name="lowerh"            value="$(arg lowerh)"/>
+            <param name="lowers"            value="$(arg lowers)"/>
+            <param name="lowerv"            value="$(arg lowerv)"/>
+            <param name="upperh"            value="$(arg upperh)"/>
+            <param name="uppers"            value="$(arg uppers)"/>
+            <param name="upperv"            value="$(arg upperv)"/>  
+        </node>
+    </group>
+
+    <!-- 使用普通相机 -->
+    <group if="$(eval camera_type == 'cam')">
+        <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+            <param name="video_device" value="/dev/video0" />
+            <param name="image_width" value="640" />
+            <param name="image_height" value="480" />
+            <param name="pixel_format" value="yuyv" />
+            <param name="camera_frame_id" value="camera_link" />
+            <param name="io_method" value="mmap"/>
+        </node> 
+        <!-- 添加色彩节点 -->
+        <node pkg="tarkbot_line_follow" name="linefollow" type="tarkbot_line_add_camera.py" output="screen">
+            <param name="lowerh"            value="$(arg lowerh)"/>
+            <param name="lowers"            value="$(arg lowers)"/>
+            <param name="lowerv"            value="$(arg lowerv)"/>
+            <param name="upperh"            value="$(arg upperh)"/>
+            <param name="uppers"            value="$(arg uppers)"/>
+            <param name="upperv"            value="$(arg upperv)"/>  
+        </node>
+    </group>
+
+</launch>

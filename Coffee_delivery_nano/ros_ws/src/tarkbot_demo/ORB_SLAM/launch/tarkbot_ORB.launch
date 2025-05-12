@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+        <arg name="camera_type" default="$(optenv CAMERA_TYPE dpcam)"/>
+        <!-- 启动机器人，包含底盘，雷达，相机设备 -->
+        <include file="$(find tarkbot_bringup)/launch/bringup.launch" >
+                <arg name="use_pose_ekf"      value="true"/>
+                <arg name="use_lidar"         value="false"/>
+                <arg name="use_camera"        value="true"/>
+                <arg name="use_web_video"     value="false"/>
+        </include>
+
+        <!-- 使用深度相机 -->	
+	    <group if="$(eval camera_type == 'dpcam')">
+            <node name="ORB_SLAM" pkg="ORB_SLAM" type="ORB_SLAM" args="Data/ORBvoc.txt Data/Settings.yaml" output="screen">
+                <remap from="/camera/image_raw" to="/camera/rgb/image_raw"/>
+            </node>
+        </group>
+
+        <!-- 使用PRO深度相机 -->	
+	    <group if="$(eval camera_type == 'dpcam_pro')">
+            <node name="ORB_SLAM" pkg="ORB_SLAM" type="ORB_SLAM" args="Data/ORBvoc.txt Data/Settings.yaml" output="screen">
+                <remap from="/camera/image_raw" to="/camera/rgb/image_raw"/>
+            </node>
+        </group>
+
+        <!-- 普通深度相机 -->
+        <group if="$(eval camera_type == 'cam')">
+            <node name="ORB_SLAM" pkg="ORB_SLAM" type="ORB_SLAM" args="Data/ORBvoc.txt Data/Settings.yaml" output="screen">
+                <remap from="/camera/image_raw" to="/usb_cam/image_raw"/>
+            </node>
+        </group>
+
+</launch>

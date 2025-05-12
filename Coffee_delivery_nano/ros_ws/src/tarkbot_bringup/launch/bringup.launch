@@ -1,0 +1,50 @@
+<launch>
+
+    <!-- 标签 -->
+    <arg name="use_lidar"         default="true"/>
+    <arg name="use_web_video"     default="true"/>
+    <arg name="use_pose_ekf"      default="true"/>
+    <arg name="use_camera"        default="true"/>
+    <arg name="camera_type"       default="$(optenv CAMERA_TYPE cam)"/>
+
+    <!-- 启动机器人底盘驱动 -->
+    <include file="$(find tarkbot_bringup)/launch/include/robot.launch">    
+        <arg name="base_frame"     value="base_footprint"/>  
+        <arg name="odom_frame"     value="odom"/>  
+        <arg name="imu_frame"      value="imu_link"/>  
+        <arg name="odom_topic"     value="odom"/>  
+        <arg name="imu_topic"      value="imu"/>  
+        <arg name="pose_ekf"       value="$(arg use_pose_ekf)"/>  
+    </include>  
+
+    <!-- 使用激光雷达  --> 
+    <group if="$(arg use_lidar)">
+        <include file="$(find tarkbot_bringup)/launch/include/lidar.launch">    
+            <arg name="lidar_type"    value="$(env LIDAR_TYPE)"/>  
+            <arg name="laser_frame"   value="laser_link"/>  
+            <arg name="laser_topic"   value="/tarkbot_scan_raw"/>  
+        </include>   
+
+        <!-- 启动激光雷达滤波器 -->
+        <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="log" name="laser_filter">
+            <rosparam command="load" file="$(find tarkbot_bringup)/config/tarkbot_laserfilter.yaml"/>
+            <remap from="/scan" to="/tarkbot_scan_raw"/>
+            <remap from="/scan_filtered" to="/scan"/> 
+        </node>   
+    </group>
+    
+    <!-- 是否使用相机 -->
+    <group if="$(arg use_camera)">
+        <!-- 使用普通相机 -->
+        <group if="$(eval camera_type == 'cam')">
+            <include file="$(find tarkbot_bringup)/launch/include/camera.launch"/>  
+        </group>
+    </group>
+    
+    <!-- 使用web视频服务器节点 -->
+    <group if="$(arg use_web_video)">
+        <node name="web_video_server" pkg="web_video_server" type="web_video_server" output="screen"/>
+    </group>
+
+</launch>
+

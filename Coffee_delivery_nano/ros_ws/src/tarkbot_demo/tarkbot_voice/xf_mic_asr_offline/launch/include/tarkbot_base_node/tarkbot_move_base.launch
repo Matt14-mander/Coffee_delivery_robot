@@ -1,0 +1,34 @@
+<launch>
+
+	<!-- 读取机器人类型参数 -->
+	<arg name="robot_type" default="mec" doc="robot type [r20_mec, r20_fwd, r20_akm]" />
+
+	<!-- 启动move_base功能包 -->
+	<node pkg="move_base" type="move_base" name="move_base" output="screen" clear_params="true" respawn="false" >
+
+		<!-- 全局路径规划器,使用global_planner代替默认的navfn,支持A*和dijkstra算法 -->
+		<param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+		<!-- <param name="base_global_planner" value="global_planner/GlobalPlanner"/> -->
+
+		<!-- 局部路径规划器，默认使用效果更好的TEB，可选DWA，DWA算法不支持AKM类型机器人 -->
+		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+		<!-- <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" /> -->
+
+		<!-- 导航通用参数 -->
+		<rosparam file="$(find tarkbot_nav)/config/common/move_base_params.yaml" command="load" />
+		<rosparam file="$(find tarkbot_nav)/config/common/local_costmap_params.yaml" command="load" />
+		<rosparam file="$(find tarkbot_nav)/config/common/global_costmap_params.yaml" command="load" />
+		<rosparam file="$(find tarkbot_nav)/config/common/base_global_planner_params.yaml" command="load" />
+
+		<!-- 差异化参数，不同机器人有差别 -->
+		<rosparam file="$(find tarkbot_nav)/config/$(arg robot_type)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+		<rosparam file="$(find tarkbot_nav)/config/$(arg robot_type)/costmap_common_params.yaml" command="load" ns="local_costmap" />
+
+		<!-- 局部路径规划器，默认使用效果更好的TEB，可选DWA，DWA算法不支持AKM类型机器人 -->
+		<rosparam file="$(find tarkbot_nav)/config/$(arg robot_type)/teb_local_planner_params.yaml" command="load" />
+		<!-- <rosparam file="$(find tarkbot_nav)/config/$(arg robot_type)/dwa_local_planner_params.yaml" command="load" /> -->
+
+	</node>
+	
+
+</launch>

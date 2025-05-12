@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/xtark/tarkbot/ros_ws/devel/setup.sh

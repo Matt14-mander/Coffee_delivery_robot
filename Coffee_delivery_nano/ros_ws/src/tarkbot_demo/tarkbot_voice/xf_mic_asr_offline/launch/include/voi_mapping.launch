@@ -1,0 +1,10 @@
+
+<launch>
+
+	<!-- 标签 -->
+	<arg name="slam_methods" default="gmapping" doc="slam type [gmapping, cartographer, hector, karto]"/>
+  
+	<!-- 建图算法: Gmapping, Cartographer, Hector, Karto -->
+	<include file="$(find tarkbot_slam)/launch/includes/tarkbot_$(arg slam_methods).launch"/>
+
+</launch>

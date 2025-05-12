@@ -1,0 +1,8 @@
+prefix=/home/xtark/tarkbot/ros_ws/devel
+
+Name: tarkbot_ar_track
+Description: Description of tarkbot_ar_track
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

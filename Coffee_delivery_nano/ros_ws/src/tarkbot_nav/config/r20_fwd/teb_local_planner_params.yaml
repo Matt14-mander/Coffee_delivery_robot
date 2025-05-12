@@ -1,0 +1,124 @@
+#TEB规划wiki介绍：http://wiki.ros.org/teb_local_planner
+
+#适配塔克机器人型号：XTARK-R10-FWD
+
+#局部路径规划器
+TebLocalPlannerROS:
+
+  # 订阅的话题，TF坐标系
+  odom_topic: /odom  #里程计话题
+  map_frame: map  #代价地图的TF坐标
+
+  # Trajectory 轨道配置参数 
+  teb_autosize: True  #优化期间允许改变轨迹的时域长度
+  dt_ref: 0.4  #局部路径规划的解析度，最小值0.01
+  dt_hysteresis: 0.1  #改变的时域解析度的浮动范围
+  global_plan_overwrite_orientation: true  #覆盖全局路径中局部路径点的朝向
+  max_global_plan_lookahead_dist: 3.0  #优化的全局计划子集的最大长度
+  feasibility_check_no_poses: 5  #位姿可到达的时间间隔
+
+  # Robot 机器人参数
+  max_vel_x: 0.7  #最大x轴速度，单位m/s
+  max_vel_y: 0.0  #最大y轴速度，单位m/s，非全向移动机器人设置为0
+  max_vel_x_backwards: 0.35  #最大x轴后退速度，单位m/s
+  max_vel_theta: 1.5  #最大转向角速度，单位rad/s
+  acc_lim_x: 0.8  #最大x向加速度，单位：m/s^2
+  acc_lim_y: 0.0  #最大y向加速度，单位：m/s^2,非全向移动机器人设置为0
+  acc_lim_theta: 1.5  #最大角加速度，单位：rad/s^2
+
+  min_turning_radius: 0.0 #机器人最小转弯半径，注意阿克曼不能设置0, 参考车型参数设置
+  wheelbase: 0.0  #阿克曼机器人前轮与后轮的距离（非阿克曼为0）
+  cmd_angle_instead_rotvel: False  #设置为False，所有机器人均采用cmd_vel标准的话题消息
+
+  #局部路径规划的机器人外形,包含"point", "circular", "two_circles", "line", "polygon" 
+  #一般主要使用多边形和圆类型
+  footprint_model:
+    type: "polygon"   #多边形类型,设置各顶点的坐标值
+    vertices: [[-0.12, -0.12], [-0.12, 0.12],[0.12, 0.12], [0.12, -0.12]]
+
+    #type: circular  #圆类型，设置圆的半径
+    #radius: 0.3
+
+    #type: point  #point类型不需要设置其它参数
+
+    #type: two_circles  #两个圆类型，设置两个圆的位置和半径
+    #front_offset: -0.2  #前面的圆的位置，相对机器人中心
+    #front_rasius: 0.2  #前面的圆的半径
+    #rear_offset : 0.2  #后面的圆的位置，相对机器人中心
+    #rear_rasius : 0.2  #前面的圆的半径
+
+    #type: line  #线类型，需要设置两条线的位置
+    #line_start: [0.0, 0.5]
+    #line_end: [0.5, 0.5]
+
+  # GoalTolerance 目标点误差容忍值
+  xy_goal_tolerance: 0.1  #到达目标点的xy平面偏移容忍度，在偏差内认为已经到达目标点，单位为m
+  yaw_goal_tolerance: 0.1 #到达目标点的旋转偏移容忍度，在偏差内认为已经到达目标点，单位为rad
+  free_goal_vel: False    #允许机器人以最大速度驶向目的地 
+  complete_global_plan: True  #全部的全局规划   
+
+  # Obstacles 障碍物参数
+  min_obstacle_dist: 0.20  #距离障碍物最小值，影响机器人避障效果
+  include_costmap_obstacles: True  #将动态障碍物预测为速度模型
+  costmap_obstacles_behind_robot_dist: 1.2  #限制机器人后方规划时考虑的局部成本地图障碍物
+  obstacle_poses_affected: 15   #障碍物姿态受影响
+  costmap_converter_plugin: ""
+  costmap_converter_spin_thread: True
+  costmap_converter_rate: 5
+  include_dynamic_obstacles: True 
+  dynamic_obstacle_inflation_dist: 0.6
+
+  # Optimization 轨迹优化参数
+  no_inner_iterations: 5
+  no_outer_iterations: 4
+  optimization_activate: True
+  optimization_verbose: False
+  penalty_epsilon: 0.1
+  obstacle_cost_exponent: 4
+  weight_max_vel_x: 3
+  #weight_max_vel_y: 1   #非全向，注释掉此行
+  weight_max_vel_theta: 1
+  weight_acc_lim_x: 1
+  #weight_acc_lim_y: 1  #非全向，注释掉此行
+  weight_acc_lim_theta: 1
+  weight_kinematics_nh: 1000  #非完整运动学的优化权重,（此参数必须很高,最大1000）
+  weight_kinematics_forward_drive: 1  #差速导航将此值改为60
+  weight_kinematics_turning_radius: 1
+  weight_optimaltime: 1 
+  weight_shortest_path: 0
+  weight_obstacle: 50
+  weight_inflation: 0.2
+  weight_dynamic_obstacle: 10 
+  weight_dynamic_obstacle_inflation: 0.2
+  weight_viapoint: 1
+  weight_adapt_factor: 2
+
+  # Homotopy Class Planner 同论类规划器
+  enable_homotopy_class_planning: False
+  enable_multithreading: True
+  max_number_classes: 4
+  selection_cost_hysteresis: 1.0
+  selection_prefer_initial_plan: 0.95
+  selection_obst_cost_scale: 1.0
+  selection_alternative_time_cost: False
+  roadmap_graph_no_samples: 15
+  roadmap_graph_area_width: 5
+  roadmap_graph_area_length_scale: 1.0
+  h_signature_prescaler: 0.5
+  h_signature_threshold: 0.1
+  obstacle_heading_threshold: 0.45
+  switching_blocking_period: 0.0
+  viapoints_all_candidates: True
+  delete_detours_backwards: True
+  max_ratio_detours_duration_best_duration: 3.0
+  visualize_hc_graph: False
+  visualize_with_time_as_z_axis_scale: False
+
+  # Recovery 恢复行为
+  shrink_horizon_backup: True
+  shrink_horizon_min_duration: 10
+  oscillation_recovery: False
+  oscillation_v_eps: 0.1
+  oscillation_omega_eps: 0.1
+  oscillation_recovery_min_duration: 10
+  oscillation_filter_duration: 10

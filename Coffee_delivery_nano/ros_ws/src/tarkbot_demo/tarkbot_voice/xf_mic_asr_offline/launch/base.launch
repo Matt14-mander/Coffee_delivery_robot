@@ -1,0 +1,19 @@
+
+<launch>
+  <!-- 开启机器人底层相关节点  -->
+  <include file='$(find simple_follower)/launch/nodes/laserTracker.launch' />
+  <rosparam command="load" file="$(find xf_mic_asr_offline)/config/recognition_params.yaml" />
+
+  <node pkg="xf_mic_asr_offline" type="call_recognition" name="call_recognition" />
+  <node pkg="xf_mic_asr_offline" type="command_recognition" name="command_recognition" output="screen">
+    <param name="audio_path" type="string" value="$(find xf_mic_asr_offline)/mandarin_voice"/> 
+  </node> 
+  <node pkg="xf_mic_asr_offline" type="motion_control" name="motion_control"/>
+    <param name="audio_path" type="string" value="$(find xf_mic_asr_offline)/mandarin_voice"/> 
+  <node pkg="xf_mic_asr_offline" type="refresh_mic" name="refresh_mic" />
+  <node pkg="xf_mic_asr_offline" type="node_feedback" name="node_feedback" output="screen">
+    <param name="audio_path" type="string" value="$(find xf_mic_asr_offline)/mandarin_voice"/> 
+  </node>   
+  <!-- <node pkg="xf_mic_asr_offline" type="point_navigation" name="point_navigation" /> -->
+
+</launch>

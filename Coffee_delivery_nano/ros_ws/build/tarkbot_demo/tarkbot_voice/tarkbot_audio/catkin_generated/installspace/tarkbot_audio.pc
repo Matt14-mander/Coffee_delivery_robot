@@ -1,0 +1,8 @@
+prefix=/home/xtark/tarkbot/ros_ws/install
+
+Name: tarkbot_audio
+Description: Description of tarkbot_audio
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

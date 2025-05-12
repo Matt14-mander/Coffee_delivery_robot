@@ -1,0 +1,43 @@
+<launch>
+
+	<!-- 标签 -->
+	<arg name="map_file" default="tarkbot_test.yaml"/>
+	<arg name="robot_x" value="0.0"/> 		          
+	<arg name="robot_y" value="0.0"/> 		
+
+	<include file="$(find xf_mic_asr_offline)/launch/include/tarkbot_base_node/bringup.launch">
+	<arg name="use_lidar"         value="true"/>
+    <arg name="use_web_video"     value="true"/>
+    <arg name="use_pose_ekf"      value="true"/>
+    <arg name="use_camera"        value="false"/>
+    <arg name="pose_ekf"          value="true"/>
+    <arg name="odom_frame"        value="odom"/>  
+    <arg name="base_frame"        value="base_footprint"/>  
+    <arg name="imu_frame"         value="imu_link"/>  
+    <arg name="odom_topic"        value="/odom"/>  
+    <arg name="imu_topic"         value="/imu"/> 
+	</include>
+
+	<!-- 启动Map server功能包，发布地图 -->
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find tarkbot_slam)/maps/$(arg map_file)" />
+
+	<!-- 启动AMCL 自适应蒙特卡洛定位功能 -->
+	<include file="$(find tarkbot_nav)/launch/include/tarkbot_amcl.launch">
+		<arg name="odom_frame"       value="odom"/>
+		<arg name="base_frame"       value="base_footprint"/>
+		<arg name="global_frame"     value="map"/>
+		<arg name="odom_model_type"  value="omni-corrected"/>
+	</include>
+
+	<!-- 启动move_base路径规划功能 -->
+	<include file="$(find xf_mic_asr_offline)/launch/include/tarkbot_base_node/tarkbot_move_base.launch">
+		<!-- 选择机器人型号，调用对应型号机器人导航参数 -->
+		<arg name="robot_type"   value="$(env ROBOT_TYPE)"/>  
+	</include>
+
+        <node name="pose_init" pkg="xf_mic_asr_offline" type="init_pose.py" args="0 0 0" output="screen" >
+            <param name='robot_x'    type='double' value='$(arg robot_x)'  />
+            <param name='robot_y'    type='double' value='$(arg robot_y)'  />
+        </node>
+
+</launch>

@@ -1,0 +1,87 @@
+#代价地图wiki：http://wiki.ros.org/costmap_2d
+#静态层wiki：http://wiki.ros.org/costmap_2d/hydro/staticmap
+#障碍层wiki：http://wiki.ros.org/costmap_2d/hydro/obstacles
+#膨胀层wiki：http://wiki.ros.org/costmap_2d/hydro/inflation
+
+#适配塔克机器人型号：XTARK-R10-FWD
+
+#机器人外形设置参数，可设置圆形或多边形，直接影响代价地图
+#圆形直接设置外形半径，多边形机器人设置机器人外形各顶点相对机器人旋转中心的坐标
+#坐标系X正方向为前进为正，Y正方向为向左为正，坐标点=[x, y]
+#一般机器人依次设置右下角、左下角、左上角、右上角的顶点坐标
+#多边形机器人边点
+footprint: [[-0.12, -0.12], [-0.12, 0.12],[0.12, 0.12], [0.12, -0.12]]  
+#圆形机器人半径
+#robot_radius: 0.12  
+
+#设置静态层
+static_layer:
+  #使能开关
+  enabled: true
+  #订阅的地图话题
+  map_topic: map
+  #代价地图未知区域的阈值
+  unknown_cost_value: -1
+  #代价地图完全占用区域的阈值
+  lethal_cost_threshold: 100
+  #仅订阅第一次地图数据，忽略后续订阅到的地图数据
+  first_map_only: false
+  #订阅更新话题
+  subscribe_to_updates: false
+  #保留未知区域，设置为false，未知区域将转换为自由区域
+  track_unknown_space: true
+  #设置为三元代价地图，包含未知、自由和完全占用三种情况
+  #设置为false，静态层代价地图可以有不同的占用程度
+  trinary_costmap: true
+
+#设置障碍层
+obstacle_layer:
+  #使能开关
+  enabled: true
+  #观测源以外的参数设置
+  #可观测的障碍物最大高度，单位：m
+  max_obstacle_height:  2.0
+  #加入代价地图的障碍物范围，单位：m
+  obstacle_range: 2.5
+  #障碍物被追踪范围，单位：m
+  raytrace_range: 3.0
+  #如果设置为true，障碍层代价地图会有未知、自由和完全占用三种情况
+  #如果设置为false，障碍层代价地图只有自由和完全占用三种情况
+  track_unknown_space: true
+  #障碍层如何与其它地图层处理的方法。
+  #0：障碍层覆盖其它地图层； 1:障碍物最大化方法，即各层的占用方格会覆盖其它层的自由方格，这是最常用的方法
+  #99：不改变其它地图层，应该是使障碍层层无效的方法
+  combination_method: 1
+  #设置观测源名称，可设置多个观测源
+  observation_sources: laser_scan
+  #观测源参数
+  laser_scan:
+    #数据类型，可以为LaserScan、PointCloud、PointCloud2
+    data_type: LaserScan  
+    #话题名称
+    topic: /scan
+    #清除自由空间
+    clearing: true
+    #添加障碍物
+    marking: true
+    #话题数据的保留时间，0代表只保留最近的一帧数据，单位：s
+    observation_persistence: 0.0
+    #期望的话题更新频率，0代表允许观测源一直不发布话题，单位：Hz
+    expected_update_rate: 0.0
+    #可观测的障碍物最大高度，单位：m
+    max_obstacle_height: 2.0
+    #可观测的障碍物的最小高度，单位：m
+    min_obstacle_height: 0.0
+    #加入代价地图的障碍物范围，单位：m
+    obstacle_range: 2.5
+    #障碍物被追踪范围，单位：m
+    raytrace_range: 3.0
+
+#设置膨胀层，根据obstacle_layer、static_layer和footprint生成代价地图
+inflation_layer:
+  #使能开关
+  enabled: true 
+  #代价地图数值随与障碍物距离下降的比值，越大会导致路径规划越靠近障碍物
+  cost_scaling_factor: 10.0
+  #机器人膨胀半径，越大越安全，过大会导致无法穿越狭窄空间，影响路径规划，单位：m
+  inflation_radius: 0.1

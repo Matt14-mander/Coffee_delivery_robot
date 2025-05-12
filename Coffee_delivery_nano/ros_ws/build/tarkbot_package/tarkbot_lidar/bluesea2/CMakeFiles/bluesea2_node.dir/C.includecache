@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/xtark/tarkbot/ros_ws/src/tarkbot_package/tarkbot_lidar/bluesea2/src/uart.c
+stdlib.h
+-
+stdio.h
+-
+fcntl.h
+-
+errno.h
+-
+string.h
+-
+linux/termios.h
+-
+

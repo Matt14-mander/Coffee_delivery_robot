@@ -1,0 +1,14 @@
+﻿#BNF+IAT 1.0 UTF-8;
+!grammar call;
+
+!slot <action>;
+
+!start <callstart>;
+
+<callstart>:(小克|关闭)<choose>;
+<choose>:<action>|<navigation>|<turn>|<follow>|<language>;
+<action>:前进|后退|停止|过来|休眠|自主建图|脱困;
+<navigation>:去(1|2|3)点|开始导航|导航;
+<turn>:(左|右)转;
+<follow>:雷达(跟随|警报);
+<language>:来点(东北话|粤语|四川话)|播放音乐;

@@ -1,0 +1,34 @@
+<launch>
+  <!-- 开启RGB摄像头  -->
+  <include file="$(find realsense2_camera)/launch/rs_rgbd.launch" >
+    <arg name="enable_pointcloud"   default="false"/>
+    <arg name="align_depth"         default="false"/>
+    <arg name="enable_sync"         default="false"/>
+    <arg name="filters"             default=""/>
+  </include>
+
+  <!-- 开启色块跟踪节点  -->
+  <node name='opencv_visual_follower' pkg="simple_follower" type="VisualFollow.py" output="screen">
+
+    <!--  上传相关参数到参数服务器 -->
+    <rosparam ns='visual_angle'>
+      vertical :   46.7
+      horizontal : 60
+    </rosparam>
+    <rosparam ns='velocity_multiple'>
+      forward:    0.8
+      forward_kd: 0.0
+      turn:       1.2
+      turn_kd:    0.0
+    </rosparam>
+    <rosparam ns='velocity_restrict'>
+      forward: 0.35
+      turn:    2
+    </rosparam>
+    <param name='targetDistance' value='600' type='double' />
+
+  </node>
+
+  <!-- 开启机器人底层相关节点  -->
+  <include file="$(find turn_on_wheeltec_robot)/launch/turn_on_wheeltec_robot.launch" />
+</launch>

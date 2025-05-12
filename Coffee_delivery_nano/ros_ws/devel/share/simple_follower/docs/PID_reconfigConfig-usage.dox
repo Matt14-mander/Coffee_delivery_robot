@@ -1,0 +1,12 @@
+\subsubsection usage Usage
+\verbatim
+<node name="simple_follower" pkg="simple_follower" type="simple_follower">
+  <param name="Kp1" type="double" value="1.2" />
+  <param name="Ki1" type="double" value="0.0" />
+  <param name="Kd1" type="double" value="0.0" />
+  <param name="Kp2" type="double" value="1.0" />
+  <param name="Ki2" type="double" value="0.0" />
+  <param name="Kd2" type="double" value="0.0" />
+</node>
+\endverbatim
+

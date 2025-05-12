@@ -1,0 +1,5 @@
+<launch>
+	<node name="tarkbot_tts" pkg="tarkbot_audio" type="tarkbot_tts.py" output="screen" respawn="true">
+		<rosparam file="$(find tarkbot_audio)/config/tarkbot_audio.yaml" command="load"/>
+	</node>
+</launch>

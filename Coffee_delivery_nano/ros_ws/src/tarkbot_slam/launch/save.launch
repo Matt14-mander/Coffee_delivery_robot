@@ -1,0 +1,9 @@
+<launch>
+
+	<!-- 标签，需要保存的地图文件名 -->
+	<arg name="name" default="map" />
+
+	<!-- 保存地图文件到maps文件夹 -->
+	<node name="map_save" pkg="map_server" type="map_saver" args="-f $(find tarkbot_slam)/maps/$(arg name)" />
+
+</launch>

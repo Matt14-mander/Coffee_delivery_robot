@@ -1,0 +1,167 @@
+#DWA局部路经规划器官方介绍：http://wiki.ros.org/dwa_local_planner
+
+#适配塔克机器人型号：XTARK-R10-FWD
+
+#DWAPlannerROS 局部路径规划器
+DWAPlannerROS:
+
+  # Robot 机器人参数
+  max_vel_x: 0.7          #x最大线速度，单位m/s
+  min_vel_x: 0.0          #x最小线速度，单位m/s，负数代表可后退
+
+  max_vel_y: 0.0          #y最大线速度，单位m/s
+  min_vel_y: 0.0          #y最小线速度，单位m/s
+
+  # The velocity when robot is moving in a straight line
+  max_vel_trans: 1.0      #最大平移动速度的绝对值，单位为m/s
+  min_vel_trans: 0.4      #最小平移动速度的绝对值，单位为m/s
+
+  max_vel_theta: 3.0      #最大旋转角速度，单位rad/s 
+  min_vel_theta: 0.0      #最小旋转角速度，单位为rad/s 
+
+  acc_lim_x: 2.5          #x最大加速度，单位m/s^2
+  acc_lim_y: 0.0          #y最大加速度，单位m/s^2
+  acc_lim_theta: 5.0      #极限旋转加速度，单位为m/s^2
+  acc_lim_trans: 5.0      #极限旋转加速度，单位为m/s^2
+
+  trans_stopped_vel: 0.1  #停止状态时的平移速度，如果机器人的速度低于该值，则认为机器人已停止，单位为m/s
+  theta_stopped_vel : 0.4 #停止状态时的旋转速度，如果机器人的速度低于该值，则认为机器人已停止，单位为rad/s  
+
+  # GoalTolerance 目标点误差允许值
+  xy_goal_tolerance: 0.2    #弧度偏差允许量，单位为m
+  yaw_goal_tolerance: 0.15  #弧度偏差允许量，单位为rad
+  latch_xy_goal_tolerance: false  #true表示：如果到达容错距离内就会原地旋转；即使转动是会跑出容错距离外
+
+  # Forward Simulation Parameters 前向模拟参数
+  sim_time: 2.0       #前向模拟轨迹的时间，单位为s
+  vx_samples: 20      #x速度空间的采样点数
+  vy_samples: 0       #y方向速度空间采样点数
+  vtheta_samples: 40  #旋转方向的速度空间采样点数
+  controller_frequency: 10.0
+
+  # Trajectory Scoring Parameters 轨迹评分参数
+  path_distance_bias: 32.0       #给定路径接近程度的权重
+  goal_distance_bias: 24.0       #与局部目标点的接近程度的权重，也用于速度控制
+  occdist_scale: 0.02            #躲避障碍物的程度
+  forward_point_distance: 0.325  #放置一个计分点的距离
+  stop_time_buffer: 0.2          #碰撞发生前必须拥有的最少时间量，该时间内所采用的轨迹仍视为有效
+  scaling_speed: 0.25            #缩放机器人足迹时的速度的绝对值，单位为m/s
+  max_scaling_factor: 0.2        #最大缩放因子
+
+  # Oscillation Prevention Parameters 预防振动参数
+  oscillation_reset_dist: 0.05  #运动幅度，不大于多少时认为处于振荡状态，单位m
+
+  # Debugging 调试参数
+  publish_traj_pc : true     #将规划的轨迹在rviz上进行可视化
+  publish_cost_grid_pc: true #将代价值进行可视化显示
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TebLocalPlannerROS:
+
+ odom_topic: odom
+ #odom_topic: /robot_pose_ekf/odom_combined
+ map_frame: odom
+ #map_frame: /odom_combined
+
+ # Trajectory
+
+ teb_autosize: True
+ dt_ref: 0.45
+ dt_hysteresis: 0.1
+ global_plan_overwrite_orientation: True
+ max_global_plan_lookahead_dist: 3.0
+ feasibility_check_no_poses: 5
+
+ # Robot
+
+ max_vel_x: 0.7
+ max_vel_y: 0.5    #差速导航注释掉此行
+ max_vel_x_backwards: 0.35
+ max_vel_theta: 2.0
+ acc_lim_x: 0.85
+ acc_lim_y: 0.85   #差速导航注释掉此行
+ acc_lim_theta: 1.50
+ min_turning_radius: 0.0
+ footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
+ #radius: 0.12 # for type "circular"
+   vertices: [[-0.12, -0.12], [-0.12, 0.12],[0.12, 0.12], [0.12, -0.12]]
+   #vertices: [[-0.1, -0.26], [-0.1, 0.26],[0.287, 0.26], [0.287, -0.26]]
+
+ # GoalTolerance
+
+ xy_goal_tolerance: 0.2
+ yaw_goal_tolerance: 0.5
+ free_goal_vel: False
+
+ # Obstacles
+
+ min_obstacle_dist: 0.20
+ include_costmap_obstacles: True
+ costmap_obstacles_behind_robot_dist: 1.0
+ obstacle_poses_affected: 7
+ costmap_converter_plugin: ""
+ costmap_converter_spin_thread: True
+ costmap_converter_rate: 5
+
+ # Optimization
+
+ no_inner_iterations: 5
+ no_outer_iterations: 4
+ optimization_activate: True
+ optimization_verbose: False
+ penalty_epsilon: 0.1
+ weight_max_vel_x: 1
+ weight_max_vel_y: 1                #差速导航注释掉此行
+ weight_max_vel_theta: 1
+ weight_acc_lim_x: 1
+ weight_acc_lim_y: 1                #差速导航注释掉此行
+ weight_acc_lim_theta: 1
+ weight_kinematics_nh: 1            #差速导航将此值改为1000
+ weight_kinematics_forward_drive: 1 #差速导航将此值改为60
+ weight_kinematics_turning_radius: 1
+ weight_optimaltime: 1
+ weight_obstacle: 50
+ weight_dynamic_obstacle: 10 # not in use yet
+ selection_alternative_time_cost: False # not in use yet
+
+ # Homotopy Class Planner
+
+ enable_homotopy_class_planning: False
+ enable_multithreading: True
+ simple_exploration: False
+ max_number_classes: 4
+ roadmap_graph_no_samples: 15
+ roadmap_graph_area_width: 5
+ h_signature_prescaler: 0.5
+ h_signature_threshold: 0.1
+ obstacle_keypoint_offset: 0.1
+ obstacle_heading_threshold: 0.45
+ visualize_hc_graph: False

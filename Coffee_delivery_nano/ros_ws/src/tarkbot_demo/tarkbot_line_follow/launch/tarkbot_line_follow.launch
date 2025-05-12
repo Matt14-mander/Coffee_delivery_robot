@@ -1,0 +1,33 @@
+<launch>
+   
+    <!-- 选择巡线的颜色 红0 蓝1 绿2 黄3 黑4-->
+    <arg name="color_mode"    default="0"/>   
+    <arg name="camera_type" default="$(optenv CAMERA_TYPE dpcam)"/>
+    <!-- 启动机器人，包含底盘，深度相机 -->
+	<include file="$(find tarkbot_bringup)/launch/bringup.launch" >
+		<arg name="use_pose_ekf"      value="true"/>
+		<arg name="use_lidar"         value="true"/>
+		<arg name="use_camera"        value="true"/>
+		<arg name="use_web_video"     value="false"/>
+	</include>
+
+    <!-- 启动深度相机巡线节点 -->
+    <group if="$(eval camera_type == 'dpcam' or camera_type == 'dpcam_pro')">
+        <node pkg="tarkbot_line_follow" name="linefollow" type="tarkbot_follow_line.py" output="screen">
+            <param name="color_mode"            value="$(arg color_mode)"/>
+            <param name='targetDist' value='0.5' type='double' />  
+        </node>
+    </group>
+
+    <!-- 启动普通相机巡线节点 -->
+    <group if="$(eval camera_type == 'cam')">
+        <node pkg="tarkbot_line_follow" name="linefollow" type="tarkbot_follow_line_camera.py" output="screen">
+            <param name="color_mode"            value="$(arg color_mode)"/> 
+            <param name='targetDist' value='0.5' type='double' />  
+        </node>
+    </group>
+
+    <!-- 启动机器人跟随目标点寻找节点 -->
+    <include file='$(find simple_follower)/launch/nodes/laserTracker.launch' />
+
+</launch>

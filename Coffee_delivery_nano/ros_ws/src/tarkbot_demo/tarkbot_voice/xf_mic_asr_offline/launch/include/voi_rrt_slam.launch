@@ -1,0 +1,14 @@
+
+<launch>
+<!-- 重复开启底层节点 因为此处运行自主建图节点前会先杀死move_base节点 需要重新开启teb算法来开启move_base节点-->
+<!-- 启动move_base路径规划功能 -->
+<include file="$(find xf_mic_asr_offline_line)/launch/include/tarkbot_base_node/tarkbot_move_base.launch">
+    <!-- 选择机器人型号，调用对应型号机器人导航参数 -->
+    <arg name="robot_type"   value="$(env ROBOT_TYPE)"/>  
+</include>
+
+<!--启动rrt建图基础节点-->
+<include file="$(find rrt_exploration)/launch/simple.launch" />
+<include file="$(find xf_mic_asr_offline_line)/launch/include/tarkbot_base_node/tarkbot_gmapping.launch" />
+
+</launch>

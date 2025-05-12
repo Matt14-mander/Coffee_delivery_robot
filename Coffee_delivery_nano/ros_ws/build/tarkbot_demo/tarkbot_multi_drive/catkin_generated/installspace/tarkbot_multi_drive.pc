@@ -1,0 +1,8 @@
+prefix=/home/xtark/tarkbot/ros_ws/install
+
+Name: tarkbot_multi_drive
+Description: Description of tarkbot_multi_drive
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: roscpp

@@ -1,0 +1,10 @@
+<launch>
+  <!-- astra_sdk人体骨架识别节点 -->
+  <node pkg="skeleton_follow" type="astra_sdk_demo" name="astra_sdk_demo" output="screen">
+      <param name="rgb_stream" value="true" />
+    <param name="body_stream" value="true" />
+  </node>
+  <!-- astra_sdk人体显示节点 -->
+  <node pkg="skeleton_follow" type="astra_sdk_show.py" name="astra_sdk_show" />
+
+</launch>

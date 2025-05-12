@@ -1,0 +1,7 @@
+\subsubsection usage Usage
+\verbatim
+<node name="xtlidar_ros" pkg="xtlidar_ros" type="xtlidar_ros">
+  <param name="rpm" type="int" value="600" />
+</node>
+\endverbatim
+

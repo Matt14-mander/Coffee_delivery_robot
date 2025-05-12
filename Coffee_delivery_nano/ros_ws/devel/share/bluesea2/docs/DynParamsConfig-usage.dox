@@ -1,0 +1,7 @@
+\subsubsection usage Usage
+\verbatim
+<node name="bluesea" pkg="bluesea2" type="bluesea">
+  <param name="rpm" type="int" value="600" />
+</node>
+\endverbatim
+

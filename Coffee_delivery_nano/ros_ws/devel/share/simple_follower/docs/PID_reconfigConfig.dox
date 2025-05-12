@@ -1,0 +1,11 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~Kp1" : \b [double] Kp1 in PID min: 0.0, default: 1.2, max: 1000.0
+- \b "~Ki1" : \b [double] Ki1 in PID min: 0.0, default: 0.0, max: 1000.0
+- \b "~Kd1" : \b [double] Kd1 in PID min: 0.0, default: 0.0, max: 1000.0
+- \b "~Kp2" : \b [double] Kp2 in PID min: 0.0, default: 1.0, max: 1000.0
+- \b "~Ki2" : \b [double] Ki2 in PID min: 0.0, default: 0.0, max: 1000.0
+- \b "~Kd2" : \b [double] Kd2 in PID min: 0.0, default: 0.0, max: 1000.0
+

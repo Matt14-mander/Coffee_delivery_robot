@@ -1,0 +1,24 @@
+confidence: 18  #语音识别结果自信度阈值，取值：0-100
+seconds_per_order: 5  #每次语音指令录音长度，单位：秒
+
+line_vel_x: 0.2 #语音控制小车移动的X轴线速度
+ang_vel_z: 0.2 #语音控制小车移动的Z轴角速度速度
+
+radar_range: 0.5 #雷达自动避障障碍物阈值，单位：米
+radar_count: 3 #雷达自动避障排除噪点次数
+if_akm_yes_or_no: "no"   #车型，阿克曼车填yes，其他车型填no
+
+1_position_x: -1.822  #语音导航I点坐标。
+1_position_y: 0.745
+1_orientation_z: 0.529
+1_orientation_w: 0.848
+
+2_position_x: 0.189 #语音导航J点坐标。
+2_position_y: 0.047
+2_orientation_z: 0.553
+2_orientation_w: 0.833
+
+3_position_x: 2 #语音导航K点坐标。
+3_position_y: -1
+3_orientation_z: 0
+3_orientation_w: 1

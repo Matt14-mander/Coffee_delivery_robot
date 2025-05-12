@@ -1,0 +1,4 @@
+<launch>
+  <include file='$(find laser_warning)/launch/nodes/visualTracker.launch' />
+  <include file='$(find laser_warning)/launch/nodes/follower.launch' />
+</launch>

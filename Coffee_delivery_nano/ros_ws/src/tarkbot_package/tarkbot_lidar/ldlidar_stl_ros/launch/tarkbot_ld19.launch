@@ -1,0 +1,27 @@
+<launch>
+	<!-- 标签定义 -->
+	<arg name="laser_frame"  default="laser_link"/>
+    <arg name="laser_topic"  default="/scan_raw"/>
+
+<!-- 雷达消息发布服务器节点 -->
+ <node name="LD19" pkg="ldlidar_stl_ros" type="ldlidar_stl_ros_node" output="screen" >
+  <param name="product_name" value="LDLiDAR_LD19"/>
+  <param name="topic_name" value="$(arg laser_topic)"/>
+  <param name="port_name" value ="/dev/tarkbot_lidar"/>
+  <param name="frame_id" value="$(arg laser_frame)"/>
+  <!-- 设置激光扫描方向: -->
+  <!--    1. 逆时针设置，例如：<param name=“laser\u scan\u dir”type=“bool”value=“true”/> -->
+  <!--    2. 顺时针设置，例如：<param name=“laser\u scan\u dir”type=“bool”value=“false”/> -->
+  <param name="laser_scan_dir" type="bool" value="true"/>
+  <!-- 角度裁剪设置，设置角度范围内的数据 -->
+  <!--    1. 启用角度裁剪功能: -->
+  <!--       1.1. 启用角度裁剪，例如：<param name=“enable\u angle\u crop\u func”type=“bool”value=“true”/> -->
+  <!--       1.2. 禁用角度裁剪，例如：<param name=“enable\u angle\u crop\u func”type=“bool”value=“false”/> -->
+  <param name="enable_angle_crop_func" type="bool" value="true"/>
+  <!--    2. 角度裁剪间隔设置，设置角度范围内的距离和强度数据将设置为0 --> 
+  <!--       角度>=“angle\u crop\u min”和角度<=“angle\u crop\u max”，单位为度 -->
+  <param name="angle_crop_min" type="double" value="130.0"/>
+  <param name="angle_crop_max" type="double" value="230.0"/>
+ </node>
+
+</launch>

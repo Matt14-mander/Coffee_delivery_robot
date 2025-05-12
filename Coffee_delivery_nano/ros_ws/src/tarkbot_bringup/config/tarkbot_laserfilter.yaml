@@ -1,0 +1,15 @@
+
+#激光雷达滤波器
+scan_filter_chain:
+        #盒子类型滤波器，设定盒子范围内的遮挡物将会被率除
+        - name: box_filter  
+          type: laser_filters/LaserScanBoxFilter
+          params:
+                  #滤波器坐标系，以base_link为基坐标
+                  box_frame: base_link
+                  min_x: -0.20 
+                  max_x: 0.20
+                  min_y: -0.15
+                  max_y: 0.15
+                  min_z: -0.2
+                  max_z: 0.2

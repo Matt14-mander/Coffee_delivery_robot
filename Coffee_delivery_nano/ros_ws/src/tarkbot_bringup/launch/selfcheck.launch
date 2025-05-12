@@ -1,0 +1,18 @@
+<launch>
+
+	<!-- 启动机器人，包含底盘，激光雷达, 深度相机 -->
+
+	<include file="$(find tarkbot_bringup)/launch/bringup.launch" >
+	    <arg name="use_pose_ekf"       value="true" />
+            <arg name="use_lidar"          value="true" />
+            <arg name="use_web_video"      value="true"/>
+            <arg name="use_camera"         value="true"/>
+        </include>
+
+    <!-- 运行机器人自检程序 -->
+
+    <group if="$(eval camera_type == 'cam')">
+        <node name="selfcheck" pkg="tarkbot_bringup" type="tarkbot_selfcheck_camera.py" output="screen" required="true"/>
+    </group>
+    
+</launch>

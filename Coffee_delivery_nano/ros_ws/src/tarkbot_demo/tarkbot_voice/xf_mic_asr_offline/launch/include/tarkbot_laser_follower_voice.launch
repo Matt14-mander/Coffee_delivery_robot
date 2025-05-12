@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- 启动机器人跟随运动节点 -->
+    <include file='$(find simple_follower)/launch/nodes/follower.launch' />
+   
+</launch>

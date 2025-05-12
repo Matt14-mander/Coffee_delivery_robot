@@ -1,0 +1,8 @@
+prefix=/home/xtark/tarkbot/ros_ws/devel
+
+Name: laser_warning
+Description: Description of laser_warning
+Version: 0.0.0
+Cflags: -I/home/xtark/tarkbot/ros_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: dynamic_reconfigure geometry_msgs message_generation roscpp rospy std_msgs message_runtime

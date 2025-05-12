@@ -1,0 +1,12 @@
+\subsubsection usage Usage
+\verbatim
+<node name="tarkbot_line_follow" pkg="tarkbot_line_follow" type="tarkbot_line_follow">
+  <param name="lowerh" type="int" value="0" />
+  <param name="lowers" type="int" value="0" />
+  <param name="lowerv" type="int" value="0" />
+  <param name="upperh" type="int" value="255" />
+  <param name="uppers" type="int" value="255" />
+  <param name="upperv" type="int" value="255" />
+</node>
+\endverbatim
+

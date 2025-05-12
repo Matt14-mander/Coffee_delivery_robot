@@ -1,0 +1,7 @@
+<launch>
+
+    <!-- 多点导航，通过RVIZ发布多个导航点，机器人依次导航 -->
+    <node pkg="tarkbot_nav" type="tarkbot_multi.py" name="tarkbot_multi" respawn="false" output="screen">
+    </node>
+
+</launch>

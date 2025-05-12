@@ -1,0 +1,8 @@
+prefix=/home/xtark/tarkbot/ros_ws/devel
+
+Name: lakibeam1
+Description: Description of lakibeam1
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,0 +1,19 @@
+<launch>
+
+    <!-- 多点位循环导航，手工设置点位，模拟送餐机器人动作 -->
+    <node pkg="tarkbot_nav" type="tarkbot_loop.py" name="tarkbot_loop" respawn="false" output="screen">
+
+        <!-- 地图坐标  -->
+        <param name="map_frame" value="map" />
+
+        <!-- 循环次数  -->
+        <param name="loop_num"  value="3" />
+
+        <!-- 设置循环点, 可自由添加多个点位  -->
+        <param name="point"  value=" -1.035,  0.384,  0.307,  0.952,
+                                      0.996,  1.277,  0.387,  0.922,
+                                      0.774,  0.438, -0.927,  0.376  " />
+    
+    </node>
+
+</launch>

@@ -1,0 +1,7 @@
+<launch>
+    <!--启动rrt建图基础节点-->
+    <include file="$(find rrt_exploration)/launch/simple.launch" />
+    <!--启动机器人建图导航相关-->
+    <include file="$(find rrt_exploration)/launch/exploration_map.launch" />
+
+</launch>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="camera_type"       default="$(optenv CAMERA_TYPE dpcam)"/>
+	<!-- 启动机器人，包含底盘，激光雷达 -->
+	<include file="$(find tarkbot_bringup)/launch/bringup.launch" >
+		<arg name="use_pose_ekf"      value="true"/>
+		<arg name="use_lidar"         value="false"/>
+		<arg name="use_camera"        value="true"/>
+		<arg name="use_web_video"     value="false"/>
+	</include>
+    
+	<!-- 启动机器人KCF算法 -->
+	<group if="$(eval camera_type == 'dpcam_pro' or camera_type == 'dpcam')">
+		<node pkg="track_pkg" name="tarkbot_kcf_track" type="kcf_node" output="screen">
+			<remap from="/camera/rgb/image_color" to="/camera/rgb/image_raw"/>
+			<remap from="/tracker/cmd_vel" to="/cmd_vel"/>
+		</node>
+    </group>
+
+	<!-- 启动机器人KCF算法 -->
+	<group if="$(eval camera_type == 'cam')">
+		<node pkg="track_pkg" name="tarkbot_kcf_track" type="kcf_node" output="screen">
+			<remap from="/camera/rgb/image_color" to="/usb_cam/image_raw"/>
+			<remap from="/tracker/cmd_vel" to="/cmd_vel"/>
+		</node>
+    </group>
+	
+
+</launch>
+

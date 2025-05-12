@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- 标签 -->
+    <arg name="use_lidar"         default="true"/>
+    <arg name="use_camera"        default="true"/>
+    <arg name="use_web_video"     default="true"/>
+    <arg name="use_pose_ekf"      default="true"/>
+    <arg name="camera_type"       default="$(optenv CAMERA_TYPE dpcam)"/>
+
+    <!-- 启动机器人底盘驱动 -->
+    <include file="$(find tarkbot_bringup)/launch/include/robot.launch">    
+        <arg name="base_frame"     value="base_footprint"/>  
+        <arg name="odom_frame"     value="odom"/>  
+        <arg name="imu_frame"      value="imu_link"/>  
+        <arg name="odom_topic"     value="odom"/>  
+        <arg name="imu_topic"      value="imu"/>  
+        <arg name="pose_ekf"       value="$(arg use_pose_ekf)"/>  
+    </include>  
+
+    <!-- 使用激光雷达  --> 
+    <group if="$(arg use_lidar)">
+        <include file="$(find tarkbot_bringup)/launch/include/lidar.launch">    
+            <arg name="lidar_type"    value="$(env LIDAR_TYPE)"/>  
+            <arg name="laser_frame"   value="laser_link"/>  
+            <arg name="laser_topic"   value="/tarkbot_scan_raw"/>  
+        </include>   
+
+        <!-- 启动激光雷达滤波器 -->
+        <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="log" name="laser_filter">
+            <rosparam command="load" file="$(find tarkbot_bringup)/config/tarkbot_laserfilter.yaml"/>
+            <remap from="/scan" to="/tarkbot_scan_raw"/>
+            <remap from="/scan_filtered" to="/scan"/> 
+        </node>   
+    </group>
+
+    <!-- 是否使用相机 -->
+    <group if="$(arg use_camera)">
+        <!-- 使用深度相机 -->
+        <group if="$(eval camera_type == 'dpcam')">
+            <include file="$(find tarkbot_bringup)/launch/include/depthcamera.launch"/>   
+        </group>
+
+        <group if="$(eval camera_type == 'dpcam_pro')">
+            <include file="$(find tarkbot_bringup)/launch/include/depthcamera_pro.launch"/>   
+        </group>
+
+        <!-- 使用普通相机 -->
+        <group if="$(eval camera_type == 'cam')">
+            <arg name="device_id" default="0"/>
+            <arg name="frame_id" default="camera_link"/>
+            <arg name="image_width" default="640"/>
+            <arg name="image_height" default="480"/>
+
+            <node name="camera" pkg="cv_camera" type="cv_camera_node" output="screen">
+                <param name="device_id" value="$(arg device_id)" />
+                <param name="frame_id" value="$(arg frame_id)" />
+                <param name="image_width" value="$(arg image_width)" />
+                <param name="image_height" value="$(arg image_height)" />
+                <remap from="/camera/image_raw/compressed" to="/image_raw/compressed"/>
+
+            </node>
+        </group>
+    </group>
+
+    <!-- 使用web视频服务器节点 -->
+    <group if="$(arg use_web_video)">
+        <node name="web_video_server" pkg="web_video_server" type="web_video_server" output="screen"/>
+    </group>
+
+    <!-- 改变摄像头图像格式 -->   
+    <node name="camera_trans" pkg="tarkbot_app" type="camera_trans.py" >
+        <remap from="/usb_cam/image_raw/compressed" to="/image_raw/compressed"/>
+    </node>
+
+
+</launch>

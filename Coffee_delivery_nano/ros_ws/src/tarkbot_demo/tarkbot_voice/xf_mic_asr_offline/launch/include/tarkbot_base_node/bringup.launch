@@ -1,0 +1,94 @@
+<launch>
+
+    <!-- 标签 -->
+    <arg name="use_lidar"         default="true"/>
+    <arg name="use_web_video"     default="true"/>
+    <arg name="use_pose_ekf"      default="true"/>
+    <arg name="use_camera"        default="false"/>
+    <arg name="pose_ekf"         default="true"/>
+    <arg name="odom_frame"       default="odom"/>  
+    <arg name="base_frame"       default="base_footprint"/>  
+    <arg name="imu_frame"        default="imu_link"/>  
+    <arg name="odom_topic"       default="/odom"/>  
+    <arg name="imu_topic"        default="/imu"/>  
+
+    <!-- 里程计使用EFK融合 -->
+    <group if="$(arg pose_ekf)">
+
+        <!-- 启动机器人底盘 -->
+        <include file="$(find tarkbot_robot)/launch/robot.launch">
+            <arg name="base_frame"     value="$(arg base_frame)"/>  
+            <arg name="odom_frame"     value="tarkbot_odom_raw"/>  
+            <arg name="imu_frame"      value="$(arg imu_frame)"/>  
+            <arg name="odom_topic"     value="tarkbot_odom_raw"/>  
+            <arg name="imu_topic"      value="$(arg imu_topic)"/>  
+            <arg name="pub_odom_tf"    value="false"/>  
+        </include>
+
+        <!-- 启动robot_pose_ekf节点 -->
+        <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf" output="screen">
+            <param name="output_frame"          value="odom"/>
+            <param name="base_footprint_frame"  value="$(arg base_frame)"/>   
+            <param name="freq"                  value="50.0"/>
+            <param name="sensor_timeout"        value="0.5"/>
+            <param name="odom_used"             value="true"/>
+            <param name="imu_used"              value="true"/>
+            <param name="vo_used"               value="false"/>
+            <remap from="odom"                  to="/tarkbot_odom_raw"/>
+            <remap from="imu_data"              to="/imu"/>
+        </node>
+
+        <!-- /odom_combined转换为标准的里程计话题 -->
+        <node pkg="tarkbot_bringup" type="tarkbot_odom_trans.py" name="odom_trans_node" output="screen">
+            <remap from="input"     to="/robot_pose_ekf/odom_combined"/>
+            <remap from="output"    to="$(arg odom_topic)"/>
+        </node>
+    </group>
+
+    <!-- 里程计不使用EFK融合，仅启动底盘 -->
+    <group unless="$(arg pose_ekf)">
+        <!-- 启动机器人底盘 -->
+        <include file="$(find tarkbot_robot)/launch/robot.launch">
+            <arg name="base_frame"     value="$(arg base_frame)"/>  
+            <arg name="odom_frame"     value="$(arg odom_frame)"/>  
+            <arg name="imu_frame"      value="$(arg imu_frame)"/>  
+            <arg name="odom_topic"     value="$(arg odom_topic)"/>  
+            <arg name="imu_topic"      value="$(arg imu_topic)"/>   
+            <arg name="pub_odom_tf"    value="true"/>  
+        </include>
+    </group>
+
+    <!-- 加载机器人URDF模型 -->
+	<include file="$(find tarkbot_description)/launch/model.launch">
+        <!-- 选择机器人型号，加载对应的机器人模型 -->
+        <arg name="robot_type"   value="$(env ROBOT_TYPE)"/>  
+    </include>  
+
+
+    <!-- 使用激光雷达  --> 
+    <group if="$(arg use_lidar)">
+        <include file="$(find tarkbot_bringup)/launch/include/lidar.launch">    
+            <arg name="lidar_type"    value="$(env LIDAR_TYPE)"/>  
+            <arg name="laser_frame"   value="laser_link"/>  
+            <arg name="laser_topic"   value="/tarkbot_scan_raw"/>  
+        </include>   
+
+        <!-- 启动激光雷达滤波器 -->
+        <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="log" name="laser_filter">
+            <rosparam command="load" file="$(find tarkbot_bringup)/config/tarkbot_laserfilter.yaml"/>
+            <remap from="/scan" to="/tarkbot_scan_raw"/>
+            <remap from="/scan_filtered" to="/scan"/> 
+        </node>   
+    </group>
+    <!-- 是否使用相机 -->
+    <group if="$(arg use_camera)">
+        <include file="$(find tarkbot_bringup)/launch/include/depthcamera_pro.launch"/>   
+    </group>
+    
+    <!-- 使用web视频服务器节点 -->
+    <group if="$(arg use_web_video)">
+        <node name="web_video_server" pkg="web_video_server" type="web_video_server" output="screen"/>
+    </group>
+
+</launch>
+

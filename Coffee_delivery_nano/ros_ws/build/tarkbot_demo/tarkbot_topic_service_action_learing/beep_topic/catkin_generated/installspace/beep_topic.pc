@@ -1,0 +1,8 @@
+prefix=/home/xtark/tarkbot/ros_ws/install
+
+Name: beep_topic
+Description: Description of beep_topic
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

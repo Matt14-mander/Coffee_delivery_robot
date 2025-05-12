@@ -1,0 +1,5 @@
+PLUGIN_LIBRARY: libmyplugins.so
+engine_file_path: yolov5s.engine
+CONF_THRESH: 0.5
+IOU_THRESHOLD: 0.4
+categories: ["Go_straight","Turn_right","whistle","Sidewalk","Limiting_velocity","Shutdown","School_decelerate","Parking_lotB","Parking_lotA","Green_light","Red_light"]

@@ -1,0 +1,9 @@
+<launch>
+
+    <!-- 加载模型启动文件 -->
+	<include file="$(find tarkbot_description)/launch/model.launch" />
+
+    <!-- 启动 rviz 显示 -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find tarkbot_description)/rviz/model_display.rviz" />
+
+</launch>

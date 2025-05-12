@@ -1,0 +1,18 @@
+<launch>
+
+	<!-- 标签 -->
+	<arg name="slam_methods" default="gmapping" doc="slam type [gmapping, cartographer, hector, karto]"/>
+
+	<!-- 启动机器人，包含底盘，雷达，相机设备 -->
+	<include file="$(find tarkbot_bringup)/launch/bringup.launch" >
+		<arg name="use_pose_ekf"      value="true"/>
+		<arg name="use_lidar"         value="false"/>
+		<arg name="use_camera"        value="true"/>
+		<arg name="use_web_video"     value="false"/>
+	</include>
+    <include file="$(find tarkbot_slam)/launch/includes/depthimage_to_laserscan.launch">
+    </include>
+	<!-- 建图算法: Gmapping, Cartographer, Hector, Karto -->
+	<include file="$(find tarkbot_slam)/launch/includes/tarkbot_$(arg slam_methods).launch"/>
+
+</launch>

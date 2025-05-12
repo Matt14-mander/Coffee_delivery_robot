@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot name="tarkbot_robot">
+
+    <!-- 机器人底部中心原点 -->
+    <link name="base_footprint">
+        <visual>
+            <geometry>
+                <sphere radius="0.001" />
+            </geometry>
+        </visual>
+    </link>
+
+    <!-- 机器人底盘 -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://tarkbot_description/meshes/base_r20_mec.stl" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="base_color">
+                <!-- <color rgba="0.000 0.500 0.500 1" /> -->
+                <!-- <color rgba="0.000 0.000 1.000 1" /> -->
+                <!-- <color rgba="1.000 0.500 0.000 1" /> -->
+                <color rgba="0.800 0.800 0.800 1" />
+            </material>
+        </visual>
+    </link>    
+
+        <!-- 机器人轮子 -->
+    <link name="wheel_fl">
+        <visual>
+            <geometry>
+                <mesh filename="package://tarkbot_description/meshes/wheel/m100l.stl" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="wheel_color">
+                <color rgba="0.1 0.1 0.1 1" />
+            </material>
+        </visual>
+    </link>  
+
+    <link name="wheel_fr">
+        <visual>
+            <geometry>
+                <mesh filename="package://tarkbot_description/meshes/wheel/m100r.stl" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="wheel_color">
+                <color rgba="0.1 0.1 0.1 1" />
+            </material>
+        </visual>
+    </link>  
+
+    <link name="wheel_bl">
+        <visual>
+            <geometry>
+                <mesh filename="package://tarkbot_description/meshes/wheel/m100r.stl" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="wheel_color">
+                <color rgba="0.1 0.1 0.1 1" />
+            </material>
+        </visual>
+    </link>  
+
+    <link name="wheel_br">
+        <visual>
+            <geometry>
+                <mesh filename="package://tarkbot_description/meshes/wheel/m100l.stl" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="wheel_color">
+                <color rgba="0.1 0.1 0.1 1" />
+            </material>
+        </visual>
+    </link>  
+
+    <!-- 机器人雷达 -->
+    <link name="laser_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://tarkbot_description/meshes/laser.stl" />
+            </geometry>
+            <origin xyz="0 0 -0.06" rpy="0 0 0" />
+            <material name="laser_color">
+                <color rgba="0.4 0.4 0.4 1" />
+            </material>
+        </visual>
+    </link> 
+
+    <!-- 机器人摄像头支架 -->
+    <link name="cameramount_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://tarkbot_description/meshes/mec_cam_mount.stl" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="cameramount_color">
+                <color rgba="0.25 0.25 0.25 1" />
+            </material>
+        </visual>
+    </link>  
+
+    <!-- 机器人摄像头 -->
+    <link name="camera_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://tarkbot_description/meshes/depthcamera.stl" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="camera_color">
+                <color rgba="0.15 0.15 0.15 1" />
+            </material>
+        </visual>
+    </link>
+
+    <!-- 机器人IMU传感器 -->
+    <link name="imu_link">
+        <visual>
+            <geometry>
+                <sphere radius="0.010" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="imu_color">
+                <color rgba="1 1 0 1" />
+            </material>
+        </visual>
+    </link>
+
+    <!-- 机器人前灯 -->
+    <link name="light_link">
+        <visual>
+            <geometry>
+                <mesh filename="package://tarkbot_description/meshes/light.stl" />
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="light_color">
+                <color rgba="0.0 1.0 1.0 1" />
+            </material>
+        </visual>
+    </link>
+
+    <!-- 底盘与原点连接的关节 -->
+    <joint name="baselink2footprint" type="fixed">
+        <origin xyz="0 0 0.1155" rpy="0 0 0"/>
+        <parent link="base_footprint" />
+        <child  link="base_link" />
+    </joint>
+
+        <!-- 轮子到与底盘连接的关节 -->
+    <joint name="wheelfl2base" type="fixed">
+        <origin xyz="0.088 0.096 -0.069" rpy="0 0 1.57"/>
+        <parent link="base_link" />
+        <child  link="wheel_fl" />
+    </joint>
+
+    <joint name="wheelfr2base" type="fixed">
+        <origin xyz="0.088 -0.096 -0.069" rpy="0 0 -1.57"/>
+        <parent link="base_link" />
+        <child  link="wheel_fr" />
+    </joint>
+
+    <joint name="wheelbl2base" type="fixed">
+        <origin xyz="-0.088 0.096 -0.069" rpy="0 0 1.57"/>
+        <parent link="base_link" />
+        <child  link="wheel_bl" />
+    </joint>
+
+    <joint name="wheelbr2base" type="fixed">
+        <origin xyz="-0.088 -0.096 -0.069" rpy="0 0 -1.57"/>
+        <parent link="base_link" />
+        <child  link="wheel_br" />
+    </joint>
+
+    <!-- 雷达到与底盘连接的关节 -->
+    <joint name="laser2base" type="fixed">
+        <origin xyz="0.03 0 0.06" rpy="0 0 0"/>
+        <parent link="base_link" />
+        <child  link="laser_link" />
+    </joint>
+
+    <!-- 深度摄像头支架与底盘连接的关节 -->
+    <joint name="cameramount2base" type="fixed">
+        <origin xyz="-0.025 0 0" rpy="0 0 0"/>
+        <parent link="base_link" />
+        <child  link="cameramount_link" />
+    </joint>
+
+    <!-- 深度摄像头与底盘连接的关节 -->
+    <joint name="camera2base" type="fixed">
+        <origin xyz="-0.03 0 0.114" rpy="0 0 0"/>
+        <parent link="base_link" />
+        <child  link="camera_link" />
+    </joint>
+
+    <!-- IMU传感器与底盘连接的关节 -->
+    <joint name="imu2base" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="base_link" />
+        <child  link="imu_link" />
+    </joint>
+
+    <!-- 前灯与底盘连接的关节 -->
+    <joint name="light2base" type="fixed">
+        <origin xyz="0.133 0 -0.027 " rpy="0 0 0"/>
+        <parent link="base_link" />
+        <child  link="light_link" />
+    </joint>
+
+</robot>

@@ -1,0 +1,6 @@
+<launch>
+
+    <!-- 启动键盘遥控节点 -->
+    <node name="teleop_keyboard" pkg="tarkbot_teleop" type="tarkbot_teleop_keyboard.py" output="screen" respawn="false"/>
+
+</launch>

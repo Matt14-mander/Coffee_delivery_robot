@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <param name="use_sim_time" value="false"/>
+
+    <!-- 启动角速度校准节点 -->
+    <node name="calibrate_angular" pkg="tarkbot_calibrate" type="calibrate_angular.py" output="screen"/>
+
+</launch>

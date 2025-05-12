@@ -1,0 +1,3 @@
+int8 type
+astra_sdk_vector2f depthPosition
+astra_sdk_vector3f worldPosition

@@ -1,0 +1,14 @@
+int16 bodyid
+float32 CenterOfMass_X
+float32 CenterOfMass_Y
+float32 CenterOfMass_Z
+int8 left_arm_out
+int8 right_arm_out
+int8 left_hand_raised
+int8 right_hand_raised
+int8 akimibo
+int8 left_foot_up
+int8 right_foot_up
+int8 fall
+int8 tips
+int8 lock_status
