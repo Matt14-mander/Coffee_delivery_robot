@@ -134,7 +134,7 @@ int main(int argc, char** argv)
 
 	nha.param("/node_feedback/audio_path", audio_path, std::string("/home/xtark/tarkbot/ros_ws/src/tarkbot_demo/tarkbot_voice/xf_mic_asr_offline"));
 
-    nha.param("/command_recognition/head", head, std::string("aplay -D plughw:CARD=UACDemoV10,DEV=0 "));
+    nha.param("/command_recognition/head", head, std::string("aplay -D plughw:2,0 "));
 
 	/***创建关闭速度信息发布者***/
 	cmdvel_pub = nha.advertise<geometry_msgs::Twist>("cmd_vel", 1);

@@ -1,0 +1,34 @@
+# requirements.txt
+
+# ROS-Python bindings
+rospkg==1.3.0
+catkin_pkg==0.4.20
+pyyaml==5.4.1
+
+# Laser data processing and visualization
+numpy==1.19.5
+scipy==1.5.4
+matplotlib==3.3.4
+
+# Kalman filtering / Sensor Fusion
+filterpy==1.4.5
+pyquaternion==0.9.9
+
+# Speech Recognition
+SpeechRecognition==3.8.1
+pyaudio==0.2.11
+
+# Text-to-Speech (TTS)
+pyttsx3==2.90
+gTTS==2.2.3
+
+# Sound localization / Microphone array (if custom processing)
+sounddevice==0.4.4
+librosa==0.8.1
+
+# Network / Remote connection
+paramiko==2.10.4
+netifaces==0.10.9
+
+# Optional: visualization tools for debugging
+opencv-python==4.5.1.48

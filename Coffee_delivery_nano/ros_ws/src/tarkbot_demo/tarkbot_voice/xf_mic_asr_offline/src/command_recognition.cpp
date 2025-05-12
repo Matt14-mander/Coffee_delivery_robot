@@ -469,7 +469,7 @@ int main(int argc, char** argv)
 	ros::Subscriber voice_flag_sub = n.subscribe("voice_flag", 1, voice_flag_Callback);
 
 	n.param("/command_recognition/audio_path", audio_path, std::string("~/catkin_ws1111/src/xf_mic_asr_offline"));
-	n.param("/command_recognition/head", head, std::string("aplay -D plughw:CARD=UACDemoV10,DEV=0 "));
+	n.param("/command_recognition/head", head, std::string("aplay -D plughw:2,0 "));
 
 
 	n.param<float>("/1_position_x", I_position_x, 1);
