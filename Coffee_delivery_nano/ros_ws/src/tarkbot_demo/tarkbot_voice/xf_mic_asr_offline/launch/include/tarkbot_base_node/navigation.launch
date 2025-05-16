@@ -5,6 +5,14 @@
 	<arg name="robot_x" value="0.0"/> 		          
 	<arg name="robot_y" value="0.0"/> 		
 
+	<!-- 启动机器人，包含底盘，雷达，相机设备 -->
+	<include file="$(find tarkbot_bringup)/launch/bringup.launch" >
+		<arg name="use_pose_ekf"      value="true"/>
+		<arg name="use_lidar"         value="true"/>
+		<arg name="use_camera"        value="false"/>
+		<arg name="use_web_video"     value="false"/>
+	</include>
+
 	<!-- 启动Map server功能包，发布地图 -->
 	<node name="map_server" pkg="map_server" type="map_server" args="$(find tarkbot_slam)/maps/$(arg map_file)" />
 

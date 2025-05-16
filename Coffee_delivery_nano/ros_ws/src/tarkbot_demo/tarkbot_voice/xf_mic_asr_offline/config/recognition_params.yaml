@@ -22,3 +22,23 @@ if_akm_yes_or_no: "no"   #车型，阿克曼车填yes，其他车型填no
 3_position_y: -1
 3_orientation_z: 0
 3_orientation_w: 1
+
+coffee_position_x: 2 #语音导航H点坐标。
+coffee_position_y: -1
+coffee_orientation_z: 0
+coffee_orientation_w: 1
+
+c108_position_x: 2 #语音导航L点坐标。
+c108_position_y: -1
+c108_orientation_z: 0
+c108_orientation_w: 1
+
+c106_position_x: 2 #语音导航M点坐标。
+c106_position_y: -1
+c106_orientation_z: 0
+c106_orientation_w: 1
+
+c115_position_x: 2 #语音导航N点坐标。
+c115_position_y: -1
+c115_orientation_z: 0
+c115_orientation_w: 1

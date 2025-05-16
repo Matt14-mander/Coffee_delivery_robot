@@ -5,8 +5,9 @@ The Coffee Delivery Robot is designed to assist beverage bars with delivering dr
 ---
 
 ## 📦 Project Structure
-
-
+<div align="center">
+  <img src="Resource/fig/俯视图.png" alt="项目结构图" width="20%">
+</div>
 ---
 
 ### 🛠️ Hardware Components

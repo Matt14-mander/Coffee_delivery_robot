@@ -45,6 +45,26 @@ float K_position_y ;
 float K_orientation_z ;
 float K_orientation_w ;
 
+float H_position_x ;
+float H_position_y ;
+float H_orientation_z ;
+float H_orientation_w ;
+
+float L_position_x ;
+float L_position_y ;
+float L_orientation_z ;
+float L_orientation_w ;
+
+float M_position_x ;
+float M_position_y ;
+float M_orientation_z ;
+float M_orientation_w ;
+
+float N_position_x ;
+float N_position_y ;
+float N_orientation_z ;
+float N_orientation_w ;
+
 float line_vel_x ;
 float ang_vel_z ;
 float turn_line_vel_x ;
@@ -81,6 +101,10 @@ void voice_words_callback(const std_msgs::String& msg)
 	string str22 = "小克来点四川话";
 	string str23 = "小克来点粤语";
 	string str24 = "小克播放音乐";
+	string str25 = "小克去咖啡吧台";
+	string str26 = "小克去C108";
+	string str27 = "小克去C106";
+	string str28 = "小克去C115";
 /***********************************
 指令：前进
 动作：底盘运动控制器使能，发布速度指令
@@ -327,7 +351,7 @@ void voice_words_callback(const std_msgs::String& msg)
 		OTHER = (char*) "/OK.WAV";
 		WHOLE = join((head + audio_path),OTHER);
 		system(WHOLE);
-		system("dbus-launch gnome-terminal -- roslaunch xf_mic_asr_offline tarkbot_laser_follower_voice.launch");//打开雷达跟随节点
+		system("roslaunch xf_mic_asr_offline tarkbot_laser_follower_voice.launch");//打开雷达跟随节点
 		cout<<"好的：雷达跟随"<<endl;
 	}
 
@@ -367,7 +391,7 @@ void voice_words_callback(const std_msgs::String& msg)
 	}
 	else if(str1 == str20)
 	{
-		OTHER = (char*) "/OK.WAV";
+		OTHER = (char*) "/warn.WAV";
 		WHOLE = join((head + audio_path),OTHER);
 		system(WHOLE);
 		system("dbus-launch gnome-terminal -- roslaunch xf_mic_asr_offline tarkbot_laser_warning_voice.launch");//打开雷达跟随节点
@@ -400,6 +424,106 @@ void voice_words_callback(const std_msgs::String& msg)
 		WHOLE = join((head + audio_path),OTHER);
 		system(WHOLE);
 		cout<<"好的：播放音乐"<<endl;
+	}
+
+/***********************************
+指令：去H点
+动作：底盘运动控制器失能(导航控制)，发布目标点
+***********************************/
+	else if(str1 == str25)
+	{
+		target.pose.position.x = H_position_x;
+		target.pose.position.y = H_position_y;
+		target.pose.orientation.z = H_orientation_z;
+		target.pose.orientation.w = H_orientation_w;
+		navigation_auto_pub.publish(target);
+
+		std_msgs::Int8 cmd_vel_flag_msg;
+        cmd_vel_flag_msg.data = 0;
+        cmd_vel_flag_pub.publish(cmd_vel_flag_msg);
+
+        std_msgs::Int8 goal_control_flag_msg;
+        goal_control_flag_msg.data = 1;
+        goal_control_pub.publish(goal_control_flag_msg);
+       	OTHER = (char*) "/coffee.WAV";
+		WHOLE = join((head + audio_path),OTHER);
+		system(WHOLE);
+		cout<<"好的：自主导航至咖啡吧台"<<endl;
+	}
+
+/***********************************
+指令：去L点
+动作：底盘运动控制器失能(导航控制)，发布目标点
+***********************************/
+	else if(str1 == str26)
+	{
+		target.pose.position.x = L_position_x;
+		target.pose.position.y = L_position_y;
+		target.pose.orientation.z = L_orientation_z;
+		target.pose.orientation.w = L_orientation_w;
+		navigation_auto_pub.publish(target);
+
+		std_msgs::Int8 cmd_vel_flag_msg;
+        cmd_vel_flag_msg.data = 0;
+        cmd_vel_flag_pub.publish(cmd_vel_flag_msg);
+
+        std_msgs::Int8 goal_control_flag_msg;
+        goal_control_flag_msg.data = 1;
+        goal_control_pub.publish(goal_control_flag_msg);
+       	OTHER = (char*) "/c108.WAV";
+		WHOLE = join((head + audio_path),OTHER);
+		system(WHOLE);
+		cout<<"好的：自主导航至c108"<<endl;
+	}
+
+/***********************************
+指令：去M点
+动作：底盘运动控制器失能(导航控制)，发布目标点
+***********************************/
+	else if(str1 == str26)
+	{
+		target.pose.position.x = M_position_x;
+		target.pose.position.y = M_position_y;
+		target.pose.orientation.z = M_orientation_z;
+		target.pose.orientation.w = M_orientation_w;
+		navigation_auto_pub.publish(target);
+
+		std_msgs::Int8 cmd_vel_flag_msg;
+        cmd_vel_flag_msg.data = 0;
+        cmd_vel_flag_pub.publish(cmd_vel_flag_msg);
+
+        std_msgs::Int8 goal_control_flag_msg;
+        goal_control_flag_msg.data = 1;
+        goal_control_pub.publish(goal_control_flag_msg);
+       	OTHER = (char*) "/c106.WAV";
+		WHOLE = join((head + audio_path),OTHER);
+		system(WHOLE);
+		cout<<"好的：自主导航至c106"<<endl;
+	}
+
+/***********************************
+指令：去N点
+动作：底盘运动控制器失能(导航控制)，发布目标点
+***********************************/
+	else if(str1 == str27)
+	{
+		target.pose.position.x = N_position_x;
+		target.pose.position.y = N_position_y;
+		target.pose.orientation.z = N_orientation_z;
+		target.pose.orientation.w = N_orientation_w;
+		navigation_auto_pub.publish(target);
+
+		std_msgs::Int8 cmd_vel_flag_msg;
+        cmd_vel_flag_msg.data = 0;
+        cmd_vel_flag_pub.publish(cmd_vel_flag_msg);
+
+        std_msgs::Int8 goal_control_flag_msg;
+        goal_control_flag_msg.data = 1;
+        goal_control_pub.publish(goal_control_flag_msg);
+       	OTHER = (char*) "/c115.WAV";
+		WHOLE = join((head + audio_path),OTHER);
+		system(WHOLE);
+		cout<<"好的：自主导航至c115"<<endl;
 	}
 }
 
@@ -468,7 +592,7 @@ int main(int argc, char** argv)
 	/***创建寻找语音开启标志位话题订阅者***/
 	ros::Subscriber voice_flag_sub = n.subscribe("voice_flag", 1, voice_flag_Callback);
 
-	n.param("/command_recognition/audio_path", audio_path, std::string("~/catkin_ws1111/src/xf_mic_asr_offline"));
+	n.param("/command_recognition/audio_path", audio_path, std::string("/home/xu/tarkbot_nano/ros_ws/src/tarkbot_voice/xf_mic_asr_offline"));
 	n.param("/command_recognition/head", head, std::string("aplay -D plughw:2,0 "));
 
 
@@ -484,6 +608,22 @@ int main(int argc, char** argv)
 	n.param<float>("/3_position_y", K_position_y, 0);
 	n.param<float>("/3_orientation_z", K_orientation_z, 0);
 	n.param<float>("/3_orientation_w", K_orientation_w, 1);
+	n.param<float>("/coffee_position_x", H_position_x, 3);
+	n.param<float>("/coffee_position_y", H_position_y, 0);
+	n.param<float>("/coffee_orientation_z", H_orientation_z, 0);
+	n.param<float>("/coffee_orientation_w", H_orientation_w, 1);
+	n.param<float>("/c108_position_x", L_position_x, 3);
+	n.param<float>("/c108_position_y", L_position_y, 0);
+	n.param<float>("/c108_orientation_z", L_orientation_z, 0);
+	n.param<float>("/c108_orientation_w", L_orientation_w, 1);
+	n.param<float>("/v_position_x", M_position_x, 3);
+	n.param<float>("/c106_position_y", M_position_y, 0);
+	n.param<float>("/c106_orientation_z", M_orientation_z, 0);
+	n.param<float>("/c106_orientation_w", M_orientation_w, 1);
+	n.param<float>("/c115_position_x", N_position_x, 3);
+	n.param<float>("/c115_position_y", N_position_y, 0);
+	n.param<float>("/c115_orientation_z", N_orientation_z, 0);
+	n.param<float>("/c115_orientation_w", N_orientation_w, 1);
 	n.param<float>("/line_vel_x", line_vel_x, 0.2);
 	n.param<float>("/ang_vel_z", ang_vel_z, 0.2);
 	n.param("/if_akm_yes_or_no", if_akm, std::string("no"));
@@ -527,6 +667,11 @@ int main(int argc, char** argv)
 	printf("<--        \033[32m小克来点四川话\033[0m ---> 机器人说四川话     -->\r\n");
 	printf("<--        \033[32m小克来点粤语\033[0m   ---> 机器人说粤语       -->\r\n");
 	printf("<--        \033[32m小克播放音乐\033[0m   ---> 机器人播放音乐     -->\r\n");
+	printf("<--        \033[32m小克去咖啡吧台\033[0m   ---> 机器人导航到咖啡吧台     -->\r\n");
+	printf("<--        \033[32m小克去C108\033[0m   ---> 机器人导航到C108     -->\r\n");
+	printf("<--        \033[32m小克去C106\033[0m   ---> 机器人导航到C106     -->\r\n");
+	printf("<--        \033[32m小克去C115\033[0m   ---> 机器人导航到C115     -->\r\n");
+	
 	cout<<"\n"<<endl;
 
 	ros::spin();
