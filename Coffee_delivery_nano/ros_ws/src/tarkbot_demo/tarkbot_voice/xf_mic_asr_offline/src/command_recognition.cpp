@@ -251,7 +251,7 @@ void voice_words_callback(const std_msgs::String& msg)
         std_msgs::Int8 goal_control_flag_msg;
         goal_control_flag_msg.data = 1;
         goal_control_pub.publish(goal_control_flag_msg);
-        OTHER = (char*) "/fist_goal.WAV";
+        OTHER = (char*) "/first_goal.WAV";
 		WHOLE = join((head + audio_path),OTHER);
 		system(WHOLE);
 		cout<<"好的：自主导航至1点"<<endl;
@@ -348,7 +348,7 @@ void voice_words_callback(const std_msgs::String& msg)
 
 	else if(str1 == str16)
 	{
-		OTHER = (char*) "/OK.WAV";
+		OTHER = (char*) "/follow.WAV";
 		WHOLE = join((head + audio_path),OTHER);
 		system(WHOLE);
 		system("roslaunch xf_mic_asr_offline tarkbot_laser_follower_voice.launch");//打开雷达跟随节点

@@ -6,7 +6,7 @@ The Coffee Delivery Robot is designed to assist beverage bars with delivering dr
 
 ## 📦 Project Structure
 <div align="center">
-  <img src="Resource/fig/俯视图.png" alt="项目结构图" width="20%">
+  <img src="Resource/fig/flow chart.png" alt="项目结构图" width="60%">
 </div>
 ---
 
@@ -20,11 +20,19 @@ The coffee delivery robot is built on a modular and stable hardware platform des
 - **Wheels**: Four Mecanum wheels for omnidirectional movement
 - **Battery**: Rechargeable lithium battery mounted at the rear for full-system power supply
 
+<div align="center">
+  <img src="Resource/fig/r20.png" alt="r20_mec" width="20%">
+</div>
+
 #### 🧠 Core Computing Unit
 
 - **Main Board**: NVIDIA Jetson Nano TX1
 - **Operating System**: Ubuntu 18.04 with ROS1 Melodic
 - **Motor Controller**: OpenCTR controller for low-level motor control and odometry
+
+<div align="center">
+  <img src="Resource/fig/master_controller.png" alt="Master&Controller" width="20%">
+</div>
 
 #### 🧩 Sensor and I/O Modules (from front to back on the second layer)
 
@@ -34,17 +42,47 @@ The coffee delivery robot is built on a modular and stable hardware platform des
 - **Voice Module**: Provides speech synthesis and voice command processing
 - **USB Expansion**: USB hub fixed on the left side for peripheral connection
 
+<div align="center">
+  <img src="Resource/fig/俯视图.png" alt="vertical view" width="20%">
+</div>
+
 #### ☕ Payload Section
 
 - **Top Shelf**: Custom cargo deck with slots to securely hold up to four coffee cups
+
+<div align="center">
+  <img src="Resource/fig/后面_全局.png" alt="back_view" width="20%">
+</div>
 
 ---
 
 #### 📷 Robot Overview Photo
 
-_(Insert a labeled photo or diagram of the robot here for visual reference)_
+<div align="center">
 
+<table>
+  <tr>
+    <td>
+      <img src="Resource/fig/first_floor.png" alt="first_floor" width="200">
+    </td>
+    <td>
+      <img src="Resource/fig/second_floor.png" alt="second_floor" width="200">
+    </td>
+  </tr>
+</table>
 
+</div>
+① LIDAR adapter board  
+② Jetson nano
+③ Radiator      
+④ The signal receiver of the handle
+⑤ OpenCTR           
+⑥ McNamm wheel 
+⑦ RGB-Camera  
+⑧ LIDAR
+⑨ Circular microphone array module        
+⑩ WonderEcho        
+⑪ Loudspeaker
 
 ### 🧠 Software Architecture
 
@@ -123,13 +161,18 @@ export ROS_MASTER_URI=http://10.169.2.110:11311
 VM:
 ```bash
 export ROS_HOSTNAME=192.168.110.145 
-export ROS_MASTER_URI=http://192.168.110.224:11311
+export ROS_MASTER_URI=http://192.168.110.224:113110
 ```
 Jetson Nano:
 ```bash
 export ROS_HOSTNAME=192.168.110.224
 export ROS_MASTER_URI=http://192.168.110.224:11311
 ```
+
+<div align="center">
+  <img src="Resource/fig/network.png" alt="network" width="60%">
+</div>
+
 🧠 Why use different networks?
 ```bash
 Mapping benefits from a broader coverage area enabled by the campus network, while navigation requires reliable feedback and action communication. Therefore, a stable local WiFi (with static IPs) ensures the success of ROS action-based navigation.
@@ -151,11 +194,19 @@ The robot supports two simultaneous localization and mapping (SLAM) approaches:
 - Efficient for small-scale environments and rapid prototyping.
 - **Limitation**: Performs poorly in the presence of transparent surfaces (e.g., glass doors), as laser scans may pass through them and misclassify open space.
 
+<div align="center">
+  <img src="Resource/fig/gmapping.jpg" alt="gmapping" width="40%">
+</div>
+
 #### 🗺️ Cartographer
 - Developed by Google, using **real-time loop closure detection** and **scan matching**.
 - More robust in complex indoor environments such as the lab.
 - Better handling of **glass doors**, walls, and ambiguous boundaries.
 - Recommended for production-grade mapping in this robot.
+
+<div align="center">
+  <img src="Resource/fig/cartography.jpg" alt="cartographer" width="40%">
+</div>
 
 #### 🧾 Map Storage
 - Uses ROS `map_server` package to **store and serve maps** for use in navigation.
@@ -176,6 +227,10 @@ The robot supports two simultaneous localization and mapping (SLAM) approaches:
   - **Local Planner**: generates velocity commands to avoid obstacles in real time.
 - Navigation goals can be issued through **RViz GUI** or via **voice command** interface.
 
+<div align="center">
+  <img src="Resource/fig/nav.png" alt="navigation" width="40%">
+</div>
+
 ---
 
 ### 3. Voice Interaction System
@@ -191,6 +246,10 @@ The robot supports two simultaneous localization and mapping (SLAM) approaches:
 #### 🧠 Integration
 - Keyword recognition triggers corresponding ROS actions or services.
 - The voice system is tightly coupled with navigation and task execution.
+
+<div align="center">
+  <img src="Resource/fig/voice_system.jpg" alt="voice_system" width="30%">
+</div>
 
 ---
 
@@ -297,6 +356,11 @@ roslaunch xf_mic_asr_offline mic_init.launch
 ```bash
 roslaunch xf_mic_asr_offline tarkbot_base_node voi_navigation.launch
 ```
+
+<div align="center">
+  <img src="Resource/fig/overall2.png" alt="overall2" width="40%">
+</div>
+
 ### 2. Voice Control
 Once the above nodes are running, the robot will be ready to receive voice commands. You can issue commands to control the robot, such as delivering coffee to a specific location.
 
@@ -306,6 +370,10 @@ Example commands include:
 - "Stop the robot."
 
 The system uses speech recognition and will respond via synthesized speech.
+
+<div align="center">
+  <img src="Resource/fig/overall.png" alt="overall" width="60%">
+</div>
 
 ## ⚙️ Troubleshooting & Tips
 ### No Response from Robot:
