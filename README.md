@@ -101,6 +101,7 @@ catkin_ws/src/
 ├── tarkbot_teleop         # Manual control using keyboard or joystick
 ├── tarkbot_voice          # Voice recognition and synthesis for voice control
 ├── simple_follower        # LiDAR-based person/object following behavior
+├── tarkbot_rviz           # Provides RViz visualization configurations and plugins
 ```
 
 Each package is responsible for a distinct subsystem:
